@@ -61,53 +61,58 @@ if ( $op eq CMD_LOCK ) {
 sub f_lock {
     my ( $repo, $message ) = @_;
 
-    my %locks = get_lock();
-    _die "'$file' locked by '$locks{$file}{USER}' since " . localtime( $locks{$file}{TIME} ) if $locks{$file}{USER};
-    $locks{$file}{USER} = $ENV{GL_USER};
-    $locks{$file}{TIME} = time;
-    put_lock(%locks);
+    my %lock = get_lock();
+    _die "'$repo' locked by '$locks{USER}' since " . localtime( $locks{TIME} ) if $locks{USER};
+    $lock{USER}    = $ENV{GL_USER};
+    $lock{TIME}    = time;
+    $lock{MESSAGE} = $message;
+    put_lock(%lock);
 }
 
 sub f_unlock {
     my ( $repo, $message ) = @_;
 
-    my %locks = get_lock();
-    _die "'$file' not locked by '$ENV{GL_USER}'" if ( $locks{$file}{USER} || '' ) ne $ENV{GL_USER};
-    delete $locks{$file};
-    put_lock(%locks);
+    my %lock = get_lock();
+    _die "'$repo' not locked by '$ENV{GL_USER}'" if ( $locks{USER} || '' ) ne $ENV{GL_USER};
+    delete $lock{USER};
+    delete $lock{TIME};
+    delete $lock{MESSAGE};
+    put_lock(%lock);
 }
 
 sub f_break {
     my ( $repo, $message ) = @_;
 
-    my %locks = get_lock();
-    _die "'$file' was not locked" unless $locks{$file};
-    push @{ $locks{BREAKS} }, time . " $ENV{GL_USER} $locks{$file}{USER} $locks{$file}{TIME} $file";
-    delete $locks{$file};
+    my %lock = get_lock();
+    _die "'$repo' was not locked" unless $locks{USER};
+    push @{ $lock{BREAKS} }, time . " $ENV{GL_USER} $locks{USER} $locks{TIME}";
+    delete $lock{USER};
+    delete $lock{TIME};
+    delete $lock{MESSAGE};
     put_lock(%locks);
 }
 
 sub get_lock {
     if ( -f LOCK_FILE ) {
-        our %locks;
+        our %lock;
 
         my $t = slurp(LOCK_FILE);
         eval $t;
         _die "do '" . LOCK_FILE . "' failed with '$@', contact your administrator" if $@;
 
-        return %locks;
+        return %lock;
     }
     
     return ();
 }
 
 sub put_lock {
-    my %locks = @_;
+    my %lock = @_;
 
     use Data::Dumper;
     $Data::Dumper::Indent   = 1;
     $Data::Dumper::Sortkeys = 1;
 
-    my $dumped_data = Data::Dumper->Dump( [ \%locks ], [qw(*locks)] );
+    my $dumped_data = Data::Dumper->Dump( [ \%lock ], [qw(*lock)] );
     _print( LOCK_FILE, $dumped_data );
 }
