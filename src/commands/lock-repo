@@ -15,16 +15,34 @@ use constant CMD_BREAK  => 'break';
 
 use constant LOCK_FILE => "gl-lockrepo";
 
-# gitolite command to lock and unlock whole repository to prevent push and deal with locks.
-
 =for usage
-Usage:  ssh git@host lock-repo --lock   <repo> --message "<message>"  # lock repo
-        ssh git@host lock-repo --unlock <repo> --message "<message>"  # unlock repo
-        ssh git@host lock-repo --break  <repo> --message "<message>"  # break lock of others (need +)
-        ssh git@host lock-repo --help                                 # show this usage
+Locks a whole repo to prevent pushing into it from any users but the user which
+lcoked the repo. Only the issuer of the lock can unlock the repo. Any user with
+force rights (+) can break the lock of other users.
+
+Usage:
+    ssh git@host lock-repo --lock   <repo> [--message "<message>"]
+    ssh git@host lock-repo --unlock <repo> [--message "<message>"]
+    ssh git@host lock-repo --break  <repo> [--message "<message>"]
+    ssh git@host lock-repo -h
+
+Options:
+    --lock <repo>           Locks a repo for the user which invked the command.
+                            The repo must exist and the user need appropriate
+                            access rights.
+    --unlock <repo>         Unlocks a repo. This is only possible for the user
+                            which performed the previous lock.
+    --break <repo>          Breaks the lock of an other user. The user which
+                            invokes this command need + right on that repo.
+    --message "<message>"   Optional message. Combineable with --lock, --unlock
+                            and --break.
+    -h|--help|-?            Shows this help.
+
+You must not combine --lock, --unlock and/or --break together in one command
+invocation. That seems to be obvious, right?
 =cut
 
-usage() if not @ARGV or $ARGV[0] eq '-h';
+usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help' or $ARGV[0] eq '-?';
 $ENV{GL_USER} or _die "GL_USER not set";
 
 my $lockRepo    = '';
