@@ -104,7 +104,11 @@ sub f_lock {
     my ( $repo, $message ) = @_;
 
     my %lock = get_lock();
-    _die "'$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) if $lock{USER};
+
+    if ( $lock{USER} ) {
+        _die "Repo '$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) . "!";
+    }
+
     $lock{USER}    = $ENV{GL_USER};
     $lock{TIME}    = time;
     $lock{MESSAGE} = $message;
@@ -115,7 +119,11 @@ sub f_unlock {
     my ( $repo, $message ) = @_;
 
     my %lock = get_lock();
-    _die "'$repo' not locked by '$ENV{GL_USER}'" if ( $lock{USER} || '' ) ne $ENV{GL_USER};
+
+    if ( ( $lock{USER} || '' ) ne $ENV{GL_USER} ) {
+        _die "Repo '$repo' not locked by '$ENV{GL_USER}' but by $lock{USER}!";
+    }
+
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
@@ -126,7 +134,7 @@ sub f_break {
     my ( $repo, $message ) = @_;
 
     my %lock = get_lock();
-    _die "'$repo' was not locked" unless $lock{USER};
+    _die "Repo '$repo' was not locked!" unless $lock{USER};
     push @{ $lock{BREAKS} }, time . " $ENV{GL_USER} $lock{USER} $lock{TIME}";
     delete $lock{USER};
     delete $lock{TIME};
@@ -140,7 +148,7 @@ sub get_lock {
 
         my $t = slurp(LOCK_FILE);
         eval $t;
-        _die "do '" . LOCK_FILE . "' failed with '$@', contact your administrator" if $@;
+        _die "Do '" . LOCK_FILE . "' failed with '$@', contact your administrator!" if $@;
 
         return %lock;
     }
