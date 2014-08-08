@@ -5,6 +5,8 @@ use warnings;
 use lib $ENV{GL_LIBDIR};
 use Gitolite::Common;
 
+use POSIX qw( strftime );
+
 # gitolite VREF to lock and unlock (repository.  Requires companion command
 # 'lock-repo' to be enabled.
 
@@ -23,7 +25,8 @@ eval $t;
 _die "do '$ff' failed with '$@', contact your administrator" if $@;
 
 if ( defined(%lock) and $lock{USER} ne $ENV{GL_USER} ) {
-    print "Repository locked by $lock{USER} since $lock{TIME} with message '$lock{MESSAGE}'! ";\
+    my $dt = strftime("%d-%m-%Y %H:%M:%S", localtime($lock{TIME}));
+    print "Repository locked by $lock{USER} since $dt with message '$lock{MESSAGE}'! ";
     exit 1
 }
 
