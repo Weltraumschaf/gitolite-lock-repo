@@ -59,7 +59,7 @@ my $message     = '';
 GetOptions ("lock=s"        => \$lockRepo,
             "unlock=s"      => \$unlockRepo,
             "break=s"       => \$breakRepo,
-            "message=s@"    => \$message)
+            "message=s{1,}" => \$message)
 or _die("Error in command line arguments!\n");
 
 my $op = '';
