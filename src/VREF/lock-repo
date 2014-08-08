@@ -25,7 +25,7 @@ eval $t;
 _die "do '$ff' failed with '$@', contact your administrator" if $@;
 
 if ( defined(%lock) and $lock{USER} ne $ENV{GL_USER} ) {
-    _die "Repository locked by $lock{USER} since "
+    _die "Repository locked by '$lock{USER}' since "
       . localtime( $lock{TIME} ) ." with message: $lock{MESSAGE} ";
 }
 
