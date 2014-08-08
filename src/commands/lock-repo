@@ -15,6 +15,11 @@ use constant CMD_BREAK  => 'break';
 
 use constant LOCK_FILE => "gl-lockrepo";
 
+#
+# TODO
+# - remove .git from CLI option
+#
+
 =for usage
 Locks a whole repo to prevent pushing into it from any users but the user which
 locked the repo. Only the issuer of the lock can unlock the repo. Any user with
@@ -25,9 +30,6 @@ Usage:
     ssh git@host lock-repo --unlock <repo> [--message "<message>"]
     ssh git@host lock-repo --break  <repo> [--message "<message>"]
     ssh git@host lock-repo -h
-
-The repo name MUST NOT end with '.git'! If your repo is in the directory foo.git
-then you have to specify the repo with: --lock foo.
 
 Options:
     --lock <repo>           Locks a repo for the user which invoked the command.
@@ -76,11 +78,15 @@ if ( $lockRepo ) {
 
 usage() if not $op;
 
+if ( substr($repo, -4) eq '.git' ) {
+    # Remove trailing .git because access right check will fail with it.
+    $repo = substr( $repo, 0 , rindex( $repo, q{.} ) );
+}
 _die "You are not authorised" if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
 _die "You are not authorised" if $op eq CMD_BREAK and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
 
 _chdir( $ENV{GL_REPO_BASE} );
-_chdir("$repo.git"); # .git is only on the file system, not for the rights checking above!
+_chdir("$repo.git"); # .Git is only on the file system, not for the rights checking above!
 
 if ( $op eq CMD_LOCK ) {
     f_lock( $repo, $message );
