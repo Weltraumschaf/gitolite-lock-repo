@@ -21,7 +21,7 @@ use constant LOCK_FILE => "gl-lockrepo";
 #
 
 =for usage
-Locks a whole repo to prevent pushing into it from any users but the user which
+Locks a whole repo to prevent pushing into it from any users, but the user which
 locked the repo. Only the issuer of the lock can unlock the repo. Any user with
 force rights (+) can break the lock of other users.
 
@@ -29,7 +29,7 @@ Usage:
     ssh git@host lock-repo --lock   <repo> [--message "<message>"]
     ssh git@host lock-repo --unlock <repo>
     ssh git@host lock-repo --break  <repo> [--message "<message>"]
-    ssh git@host lock-repo -h
+    ssh git@host lock-repo --help
 
 Options:
     --lock|-l <repo>          Locks a repo for the user which invoked the command.
@@ -42,7 +42,7 @@ Options:
     --message|-m "<message>"  Optional message. Combineable with --lock and --break.
                               This message will be displayed to users which try to
                               push to a locked repo.
-    -h|--help                 Shows this help.
+    -help|-h                  Shows this help.
 
 You MUST NOT combine --lock, --unlock and/or --break together in one command
 invocation. That seems to be obvious, right?
