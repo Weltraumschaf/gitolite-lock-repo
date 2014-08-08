@@ -1,0 +1,29 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use lib $ENV{GL_LIBDIR};
+use Gitolite::Common;
+
+# gitolite VREF to lock and unlock (repository.  Requires companion command
+# 'lock-repo' to be enabled.
+
+# ----------------------------------------------------------------------
+
+# see gitolite docs for what the first 7 arguments mean
+
+die "not meant to be run manually" unless $ARGV[6];
+
+my $ff = "$ENV{GL_REPO_BASE}/$ENV{GL_REPO}.git/gl-lockrepo";
+exit 0 unless -f $ff;
+
+our %locks;
+my $t = slurp($ff);
+eval $t;
+_die "do '$ff' failed with '$@', contact your administrator" if $@;
+
+if ( $lock and $lock{USER} ne $ENV{GL_USER} ) {
+    print "Repository locked by '$lock{USER}'!";
+}
+
+exit 0
