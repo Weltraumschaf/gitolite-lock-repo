@@ -22,7 +22,7 @@ my $t = slurp($ff);
 eval $t;
 _die "do '$ff' failed with '$@', contact your administrator" if $@;
 
-if ( $lock and $lock{USER} ne $ENV{GL_USER} ) {
+if ( defined(%lock) and $lock{USER} ne $ENV{GL_USER} ) {
     print "Repository locked by '$lock{USER}'!";
 }
 
