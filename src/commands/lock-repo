@@ -32,17 +32,17 @@ Usage:
     ssh git@host lock-repo -h
 
 Options:
-    --lock <repo>           Locks a repo for the user which invoked the command.
-                            The repo must exist and the user need appropriate
-                            access rights.
-    --unlock <repo>         Unlocks a repo. This is only possible for the user
-                            which performed the previous lock.
-    --break <repo>          Breaks the lock of an other user. The user which
-                            invokes this command need + right for that repo.
-    --message "<message>"   Optional message. Combineable with --lock and --break.
-                            This message will be displayed to users which try to
-                            push to a locked repo.
-    -h|--help               Shows this help.
+    --lock|-l <repo>          Locks a repo for the user which invoked the command.
+                              The repo must exist and the user need appropriate
+                              access rights.
+    --unlock|-u <repo>        Unlocks a repo. This is only possible for the user
+                              which performed the previous lock.
+    --break|-b <repo>         Breaks the lock of an other user. The user which
+                              invokes this command need + right for that repo.
+    --message|-m "<message>"  Optional message. Combineable with --lock and --break.
+                              This message will be displayed to users which try to
+                              push to a locked repo.
+    -h|--help                 Shows this help.
 
 You MUST NOT combine --lock, --unlock and/or --break together in one command
 invocation. That seems to be obvious, right?
