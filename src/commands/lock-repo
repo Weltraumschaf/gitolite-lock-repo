@@ -27,7 +27,7 @@ force rights (+) can break the lock of other users.
 
 Usage:
     ssh git@host lock-repo --lock   <repo> [--message "<message>"]
-    ssh git@host lock-repo --unlock <repo> [--message "<message>"]
+    ssh git@host lock-repo --unlock <repo>
     ssh git@host lock-repo --break  <repo> [--message "<message>"]
     ssh git@host lock-repo -h
 
@@ -39,9 +39,9 @@ Options:
                             which performed the previous lock.
     --break <repo>          Breaks the lock of an other user. The user which
                             invokes this command need + right for that repo.
-    --message "<message>"   Optional message. Combineable with --lock, --unlock
-                            and --break. This message will be displayed to users
-                            which try to push to a locked repo.
+    --message "<message>"   Optional message. Combineable with --lock and --break.
+                            This message will be displayed to users which try to
+                            push to a locked repo.
     -h|--help               Shows this help.
 
 You MUST NOT combine --lock, --unlock and/or --break together in one command
@@ -92,7 +92,7 @@ _chdir("$repo.git"); # .Git is only on the file system, not for the rights check
 if ( $op eq CMD_LOCK ) {
     f_lock( $repo, $message );
 } elsif ( $op eq CMD_UNLOCK ) {
-    f_unlock( $repo, $message );
+    f_unlock( $repo );
 } elsif ( $op eq CMD_BREAK ) {
     f_break( $repo, $message );
 }
@@ -116,7 +116,7 @@ sub f_lock {
 }
 
 sub f_unlock {
-    my ( $repo, $message ) = @_;
+    my ( $repo ) = @_;
 
     my %lock = get_lock();
 
