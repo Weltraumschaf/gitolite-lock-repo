@@ -51,10 +51,10 @@ my $unlockRepo  = '';
 my $breakRepo   = '';
 my $message     = '';
 
-GetOptions ("lock"    => \$lockRepo,
-            "unlock"  => \$unlockRepo,
-            "break"   => \$breakRepo,
-            "message" => \$message)
+GetOptions ("lock=s"    => \$lockRepo,
+            "unlock=s"  => \$unlockRepo,
+            "break=s"   => \$breakRepo,
+            "message=s" => \$message)
 or _die("Error in command line arguments!\n");
 
 my $op = '';
