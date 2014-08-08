@@ -26,6 +26,9 @@ Usage:
     ssh git@host lock-repo --break  <repo> [--message "<message>"]
     ssh git@host lock-repo -h
 
+The repo name MUST NOT end with '.git'! If your repo is in the directory foo.git
+then you have to specify the repo with: --lock foo.
+
 Options:
     --lock <repo>           Locks a repo for the user which invoked the command.
                             The repo must exist and the user need appropriate
@@ -39,7 +42,7 @@ Options:
                             which try to push to a locked repo.
     -h|--help               Shows this help.
 
-You must not combine --lock, --unlock and/or --break together in one command
+You MUST NOT combine --lock, --unlock and/or --break together in one command
 invocation. That seems to be obvious, right?
 =cut
 
@@ -73,13 +76,11 @@ if ( $lockRepo ) {
 
 usage() if not $op;
 
-$repo = "$repo.git" if substr($repo, -4) ne '.git';
-
 _die "You are not authorised" if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
 _die "You are not authorised" if $op eq CMD_BREAK and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
 
 _chdir( $ENV{GL_REPO_BASE} );
-_chdir($repo);
+_chdir("$repo.git"); # .git is only on the file system, not for the rights checking above!
 
 if ( $op eq CMD_LOCK ) {
     f_lock( $repo, $message );
