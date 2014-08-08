@@ -17,7 +17,7 @@ use constant LOCK_FILE => "gl-lockrepo";
 
 =for usage
 Locks a whole repo to prevent pushing into it from any users but the user which
-lcoked the repo. Only the issuer of the lock can unlock the repo. Any user with
+locked the repo. Only the issuer of the lock can unlock the repo. Any user with
 force rights (+) can break the lock of other users.
 
 Usage:
