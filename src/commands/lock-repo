@@ -38,11 +38,12 @@ my $repo = shift;
 _die "You are not authorised" if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
 _die "You are not authorised" if $op eq 'break' and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
 
-if ( $ARGV[0] eq '-m' ) {
-    shift;
-}
+my $message = '';
 
-my $message = shift || '';
+if ( defined($ARGV[0]) and $ARGV[0] eq '-m' ) {
+    shift;
+    my $message = shift || ''; // FIXME does not work with -m "foo bar baz" only gets the foo.
+}
 
 _chdir( $ENV{GL_REPO_BASE} );
 _chdir("$repo.git");
