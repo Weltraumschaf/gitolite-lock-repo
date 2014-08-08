@@ -37,13 +37,13 @@ Options:
     --message "<message>"   Optional message. Combineable with --lock, --unlock
                             and --break. This message will be displayed to users
                             which try to push to a locked repo.
-    -h|--help|-?            Shows this help.
+    -h|--help               Shows this help.
 
 You must not combine --lock, --unlock and/or --break together in one command
 invocation. That seems to be obvious, right?
 =cut
 
-usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help' or $ARGV[0] eq '-?';
+usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help';
 $ENV{GL_USER} or _die "GL_USER not set";
 
 my $lockRepo    = '';
