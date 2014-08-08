@@ -27,36 +27,36 @@ force rights (+) can break the lock of other users.
 
 Usage
 
-    ssh git@host lock-repo --lock   <repo> [--message <message>]
-    ssh git@host lock-repo --unlock <repo>
-    ssh git@host lock-repo --break  <repo> [--message <message>]
-    ssh git@host lock-repo --help
+  ssh git@host lock-repo --lock   <repo> [--message <message>]
+  ssh git@host lock-repo --unlock <repo>
+  ssh git@host lock-repo --break  <repo> [--message <message>]
+  ssh git@host lock-repo --help
 
 Options
 
-    --lock|-l <repo>          Locks a repo for the user which invoked the command.
-                              The repo must exist and the user need appropriate
-                              access rights.
-    --unlock|-u <repo>        Unlocks a repo. This is only possible for the user
-                              which performed the previous lock.
-    --break|-b <repo>         Breaks the lock of an other user. The user which
-                              invokes this command need + right for that repo.
-    --message|-m <message>    Optional message. Combineable with --lock and --break.
-                              This message will be displayed to users which try to
-                              push to a locked repo.
-    -help|-h                  Shows this help.
+  --lock|-l <repo>          Locks a repo for the user which invoked the command.
+                            The repo must exist and the user need appropriate
+                            access rights.
+  --unlock|-u <repo>        Unlocks a repo. This is only possible for the user
+                            which performed the previous lock.
+  --break|-b <repo>         Breaks the lock of an other user. The user which
+                            invokes this command need + right for that repo.
+  --message|-m <message>    Optional message. Combineable with --lock and --break.
+                            This message will be displayed to users which try to
+                            push to a locked repo.
+  -help|-h                  Shows this help.
 
 You MUST NOT combine --lock, --unlock and/or --break together in one command
 invocation. That seems to be obvious, right?
 
 Update hook
 
-    So that this comamnd affects the push the companion update hook needs to be
-    enabled. To enable it for everybody in all repository you can add this at
-    the bottom of your gitolite.conf:
+So that this comamnd affects the push the companion update hook needs to be
+enabled. To enable it for everybody in all repository you can add this at
+the bottom of your gitolite.conf:
 
-      repo @all
-          -   VREF/lock-repo  =   @all
+  repo @all
+      -   VREF/lock-repo  =   @all
 =cut
 
 usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help';
