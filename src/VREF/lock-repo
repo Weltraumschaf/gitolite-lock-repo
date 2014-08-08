@@ -17,7 +17,7 @@ die "not meant to be run manually" unless $ARGV[6];
 my $ff = "$ENV{GL_REPO_BASE}/$ENV{GL_REPO}.git/gl-lockrepo";
 exit 0 unless -f $ff;
 
-our %locks;
+our %lock;
 my $t = slurp($ff);
 eval $t;
 _die "do '$ff' failed with '$@', contact your administrator" if $@;
