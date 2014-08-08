@@ -26,8 +26,7 @@ _die "do '$ff' failed with '$@', contact your administrator" if $@;
 
 if ( defined(%lock) and $lock{USER} ne $ENV{GL_USER} ) {
     my $dt = strftime("%Y-%m-%d %H:%M:%S", localtime($lock{TIME}));
-    print "Repository locked by $lock{USER} since $dt with message: $lock{MESSAGE} ";
-    exit 1
+    _die "Repository locked by $lock{USER} since $dt with message: $lock{MESSAGE} ";
 }
 
 exit 0
