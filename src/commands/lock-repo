@@ -12,15 +12,15 @@ use Gitolite::Conf::Load;
 use constant CMD_LOCK   => 'lock';
 use constant CMD_UNLOCK => 'unlock';
 use constant CMD_BREAK  => 'break';
- 
+
 use constant LOCK_FILE => "gl-lockrepo";
 
 # gitolite command to lock and unlock whole repository to prevent push and deal with locks.
 
 =for usage
-Usage:  ssh git@host lock-repo -l <repo> -m "<Message>"     # lock repo
-        ssh git@host lock-repo -u <repo> -m "<Message>"     # unlock unlock
-        ssh git@host lock-repo -b <repo> -m "<Message>"     # break lock
+Usage:  ssh git@host lock-repo -l <repo> -m "<message>"     # lock repo
+        ssh git@host lock-repo -u <repo> -m "<message>"     # unlock repo
+        ssh git@host lock-repo -b <repo> -m "<message>"     # break lock
         ssh git@host lock-repo -h                           # show this usage
 =cut
 
@@ -41,9 +41,9 @@ _die "You are not authorised" if $op eq 'break' and access( $repo, $ENV{GL_USER}
 if ( $ARGV[0] eq '-m' ) {
     shift;
 }
-    
+
 my $message = shift || '';
-    
+
 _chdir( $ENV{GL_REPO_BASE} );
 _chdir("$repo.git");
 
@@ -56,7 +56,7 @@ if ( $op eq CMD_LOCK ) {
 }
 
 # ----------------------------------------------------------------------
-# everything below assumes we have already chdir'd to "$repo.git". 
+# everything below assumes we have already chdir'd to "$repo.git".
 
 sub f_lock {
     my ( $repo, $message ) = @_;
@@ -102,7 +102,7 @@ sub get_lock {
 
         return %lock;
     }
-    
+
     return ();
 }
 
