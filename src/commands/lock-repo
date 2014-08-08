@@ -25,13 +25,15 @@ Locks a whole repo to prevent pushing into it from any users, but the user which
 locked the repo. Only the issuer of the lock can unlock the repo. Any user with
 force rights (+) can break the lock of other users.
 
-Usage:
+Usage
+
     ssh git@host lock-repo --lock   <repo> [--message <message>]
     ssh git@host lock-repo --unlock <repo>
     ssh git@host lock-repo --break  <repo> [--message <message>]
     ssh git@host lock-repo --help
 
-Options:
+Options
+
     --lock|-l <repo>          Locks a repo for the user which invoked the command.
                               The repo must exist and the user need appropriate
                               access rights.
@@ -46,6 +48,15 @@ Options:
 
 You MUST NOT combine --lock, --unlock and/or --break together in one command
 invocation. That seems to be obvious, right?
+
+Update hook
+
+    So that this comamnd affects the push the companion update hook needs to be
+    enabled. To enable it for everybody in all repository you can add this at
+    the bottom of your gitolite.conf:
+
+      repo @all
+          -   VREF/lock-repo  =   @all
 =cut
 
 usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help';
