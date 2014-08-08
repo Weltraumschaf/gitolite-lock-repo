@@ -73,11 +73,13 @@ if ( $lockRepo ) {
 
 usage() if not $op;
 
+$repo = "$repo.git" if substr($repo, -4) ne '.git'
+
 _die "You are not authorised" if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
 _die "You are not authorised" if $op eq CMD_BREAK and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
 
 _chdir( $ENV{GL_REPO_BASE} );
-_chdir("$repo.git");
+_chdir($repo);
 
 if ( $op eq CMD_LOCK ) {
     f_lock( $repo, $message );
