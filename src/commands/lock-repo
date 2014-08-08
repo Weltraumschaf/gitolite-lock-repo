@@ -26,9 +26,9 @@ locked the repo. Only the issuer of the lock can unlock the repo. Any user with
 force rights (+) can break the lock of other users.
 
 Usage:
-    ssh git@host lock-repo --lock   <repo> [--message "<message>"]
+    ssh git@host lock-repo --lock   <repo> [--message <message>]
     ssh git@host lock-repo --unlock <repo>
-    ssh git@host lock-repo --break  <repo> [--message "<message>"]
+    ssh git@host lock-repo --break  <repo> [--message <message>]
     ssh git@host lock-repo --help
 
 Options:
@@ -39,7 +39,7 @@ Options:
                               which performed the previous lock.
     --break|-b <repo>         Breaks the lock of an other user. The user which
                               invokes this command need + right for that repo.
-    --message|-m "<message>"  Optional message. Combineable with --lock and --break.
+    --message|-m <message>    Optional message. Combineable with --lock and --break.
                               This message will be displayed to users which try to
                               push to a locked repo.
     -help|-h                  Shows this help.
