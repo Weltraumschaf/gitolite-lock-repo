@@ -135,7 +135,7 @@ sub f_break {
 
     my %lock = get_lock();
     _die "Repo '$repo' was not locked!" unless $lock{USER};
-    push @{ $lock{BREAKS} }, time . " $ENV{GL_USER} broke: $lock{USER} $lock{TIME} with: $message";
+    push @{ $lock{BREAKS} }, localtime( time ) . " $ENV{GL_USER} broke lock: $lock{USER} " . localtime( $lock{TIME} ) . " with: $message";
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
