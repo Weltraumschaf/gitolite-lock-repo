@@ -54,16 +54,17 @@ $ENV{GL_USER} or _die "GL_USER not set";
 my $lockRepo    = '';
 my $unlockRepo  = '';
 my $breakRepo   = '';
-my $message     = '';
+my @messageParts;
 
 GetOptions ("lock=s"        => \$lockRepo,
             "unlock=s"      => \$unlockRepo,
             "break=s"       => \$breakRepo,
-            "message=s{1,}" => \$message)
+            "message=s{1,}" => \@messageParts)
 or _die("Error in command line arguments!\n");
 
-my $op = '';
-my $repo = '';
+my $message = join(' ', @messageParts);
+my $op      = '';
+my $repo    = '';
 
 if ( $lockRepo ) {
     $op = CMD_LOCK;
