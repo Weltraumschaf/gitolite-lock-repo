@@ -18,32 +18,44 @@ use constant LOCK_FILE => "gl-lockrepo";
 # gitolite command to lock and unlock whole repository to prevent push and deal with locks.
 
 =for usage
-Usage:  ssh git@host lock-repo -l <repo> -m "<message>"     # lock repo
-        ssh git@host lock-repo -u <repo> -m "<message>"     # unlock repo
-        ssh git@host lock-repo -b <repo> -m "<message>"     # break lock
-        ssh git@host lock-repo -h                           # show this usage
+Usage:  ssh git@host lock-repo --lock   <repo> --message "<message>"  # lock repo
+        ssh git@host lock-repo --unlock <repo> --message "<message>"  # unlock repo
+        ssh git@host lock-repo --break  <repo> --message "<message>"  # break lock of others (need +)
+        ssh git@host lock-repo --help                                 # show this usage
 =cut
 
 usage() if not @ARGV or $ARGV[0] eq '-h';
 $ENV{GL_USER} or _die "GL_USER not set";
 
+my $lockRepo    = '';
+my $unlockRepo  = '';
+my $breakRepo   = '';
+my $message     = '';
+
+GetOptions ("lock"    => \$lockRepo,
+            "unlock"  => \$unlockRepo,
+            "break"   => \$breakRepo,
+            "message" => \$message)
+or _die("Error in command line arguments!\n");
+
 my $op = '';
-$op = CMD_LOCK   if $ARGV[0] eq '-l';
-$op = CMD_UNLOCK if $ARGV[0] eq '-u';
-$op = CMD_BREAK  if $ARGV[0] eq '-b';
-usage() if not $op;
-shift;
+my $repo = '';
 
-my $repo = shift;
-_die "You are not authorised" if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
-_die "You are not authorised" if $op eq 'break' and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
-
-my $message = '';
-
-if ( defined($ARGV[0]) and $ARGV[0] eq '-m' ) {
-    shift;
-    my $message = shift || ''; # FIXME does not work with -m "foo bar baz" only gets the foo.
+if ( $lockRepo ) {
+    $op = CMD_LOCK;
+    $repo = $lockRepo;
+} elsif ( $unlockRepo ) {
+    $op = CMD_UNLOCK;
+    $repo = $unlockRepo;
+} elsif ( $breakRepo ) {
+    $op = CMD_BREAK;
+    $repo = $breakRepo;
 }
+
+usage() if not $op;
+
+_die "You are not authorised" if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
+_die "You are not authorised" if $op eq CMD_BREAK and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
 
 _chdir( $ENV{GL_REPO_BASE} );
 _chdir("$repo.git");
