@@ -17,9 +17,7 @@ use constant CMD_STATUS => 'status';
 use constant LOCK_FILE => "gl-lockrepo";
 
 # TODO remove .git from CLI option, if given ( --lock foo.git -> --lock foo)
-# TODO --status: Returns whether a repo is locked or not
 # TODO also give message if, if already locked repo is tried to lock
-# TODO success output bei lock
 
 =for usage
 Locks a whole repo to prevent pushing into it from any users, but the user which
@@ -127,7 +125,7 @@ sub f_lock {
     my %lock = get_lock();
 
     if ( $lock{USER} ) {
-        _die "Repo '$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) . "!";
+        _die "Repo '$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) . " with message: $message";
     }
 
     $lock{USER}    = $ENV{GL_USER};
