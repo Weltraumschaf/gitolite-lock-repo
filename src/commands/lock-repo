@@ -125,7 +125,7 @@ sub f_lock {
     my %lock = get_lock();
 
     if ( $lock{USER} ) {
-        _die "Repo '$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) . " with message: $message";
+        _die "Repo '$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) . " with message: $lock{MESSAGE}";
     }
 
     $lock{USER}    = $ENV{GL_USER};
