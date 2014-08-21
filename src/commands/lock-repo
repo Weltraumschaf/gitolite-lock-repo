@@ -12,6 +12,7 @@ use Gitolite::Conf::Load;
 use constant CMD_LOCK   => 'lock';
 use constant CMD_UNLOCK => 'unlock';
 use constant CMD_BREAK  => 'break';
+use constant CMD_STATUS => 'status';
 
 use constant LOCK_FILE => "gl-lockrepo";
 
@@ -30,6 +31,7 @@ Usage
   ssh git@host lock-repo --lock   <repo> [--message <message>]
   ssh git@host lock-repo --unlock <repo>
   ssh git@host lock-repo --break  <repo> [--message <message>]
+  ssh git@host lock-repo --status <repo>
   ssh git@host lock-repo --help
 
 Options
@@ -41,6 +43,7 @@ Options
                             which performed the previous lock.
   --break|-b <repo>         Breaks the lock of an other user. The user which
                             invokes this command need + right for that repo.
+  --status|-s <repo>        Returns if the repo is locked or not.
   --message|-m <message>    Optional message. Combineable with --lock and --break.
                             This message will be displayed to users which try to
                             push to a locked repo.
@@ -65,11 +68,13 @@ $ENV{GL_USER} or _die "GL_USER not set";
 my $lockRepo    = '';
 my $unlockRepo  = '';
 my $breakRepo   = '';
+my $statusRepo  = '';
 my @messageParts;
 
 GetOptions ("lock=s"        => \$lockRepo,
             "unlock=s"      => \$unlockRepo,
             "break=s"       => \$breakRepo,
+            "status=s"      => \$statusRepo,
             "message=s{1,}" => \@messageParts)
 or _die("Error in command line arguments!\n");
 
@@ -86,6 +91,9 @@ if ( $lockRepo ) {
 } elsif ( $breakRepo ) {
     $op = CMD_BREAK;
     $repo = $breakRepo;
+} elseif ( $statusRepo ) {
+    $op = CMD_STATUS;
+    $repo = $statusRepo;
 }
 
 usage() if not $op;
@@ -106,6 +114,8 @@ if ( $op eq CMD_LOCK ) {
     f_unlock( $repo );
 } elsif ( $op eq CMD_BREAK ) {
     f_break( $repo, $message );
+} elsif ( $op eq CMD_STATUS ) {
+    f_status( $repo );
 }
 
 # ----------------------------------------------------------------------
@@ -159,6 +169,18 @@ sub f_break {
     delete $lock{MESSAGE};
     put_lock(%lock);
     say "Repo lock from '$user' broken."
+}
+
+sub f_status {
+    my ( $repo ) = @_;
+
+    my %lock = get_lock();
+
+    if ( $lock{USER} ) {
+        say "Repository locked by '$lock{USER}' since " . localtime( $lock{TIME} ) ." with message: $lock{MESSAGE} ";
+    } else {
+        say "Repo '$repo' is no tlocked."
+    }
 }
 
 sub get_lock {
