@@ -91,7 +91,7 @@ if ( $lockRepo ) {
 } elsif ( $breakRepo ) {
     $op = CMD_BREAK;
     $repo = $breakRepo;
-} elseif ( $statusRepo ) {
+} elsif ( $statusRepo ) {
     $op = CMD_STATUS;
     $repo = $statusRepo;
 }
