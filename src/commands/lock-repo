@@ -15,10 +15,10 @@ use constant CMD_BREAK  => 'break';
 
 use constant LOCK_FILE => "gl-lockrepo";
 
-#
-# TODO
-# - remove .git from CLI option
-#
+# TODO remove .git from CLI option, if given ( --lock foo.git -> --lock foo)
+# TODO --status: Returns whether a repo is locked or not
+# TODO also give message if, if already locked repo is tried to lock
+# TODO success output bei lock
 
 =for usage
 Locks a whole repo to prevent pushing into it from any users, but the user which
