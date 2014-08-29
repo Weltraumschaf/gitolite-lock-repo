@@ -24,9 +24,20 @@ my $t = slurp($ff);
 eval $t;
 _die "do '$ff' failed with '$@', contact your administrator" if $@;
 
-if ( defined(%lock) and defined($lock{USER}) and $lock{USER} ne $ENV{GL_USER} ) {
-    _die "Repository locked by '$lock{USER}' since "
-      . localtime( $lock{TIME} ) ." with message: $lock{MESSAGE} ";
+if ( defined(%lock) and defined($lock{USER}) and ( $lock{USER} ne $ENV{GL_USER} ) ) {
+    my $time = -1;
+
+    if ( defined($lock{TIME}) ) {
+      $time = localtime( $lock{TIME} );
+    }
+
+    my $message = "";
+
+    if ( defined($lock{MESSAGE}) ) {
+      $message = $lock{MESSAGE};
+    }
+
+    _die "Repository locked by '$lock{USER}' since ${time} with message: ${message} ";
 }
 
 exit 0
