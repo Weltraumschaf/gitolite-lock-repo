@@ -64,7 +64,7 @@ FAQ
  A: The lock information is stored in the bare repository in the file "gl-lockrepo".
     If you remove the file the repo is unlocked. That you can't unlock a repo
     may only happen due to bug. So for debugging it may be helpfull to keep a
-    backup of thayt file.
+    backup of that file.
 
 Bugs
 
