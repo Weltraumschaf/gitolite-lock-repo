@@ -154,7 +154,7 @@ sub f_unlock {
     _die "Repo '$repo' was not locked!" unless $lock{USER};
 
     if ( $lock{USER} ne $ENV{GL_USER} ) {
-        _die "Repo '$repo' not locked by '$ENV{GL_USER}' but by '$lock{USER}'!";
+        _die "Repo '${repo}' not locked by '$ENV{GL_USER}' but by '$lock{USER}'!";
     }
 
     delete $lock{USER};
@@ -172,7 +172,14 @@ sub f_break {
     _die "Repo '$repo' was not locked!" unless $lock{USER};
 
     my $user = $lock{USER};
-    push @{ $lock{BREAKS} }, localtime( time ) . " $ENV{GL_USER} broke lock: $user " . localtime( $lock{TIME} ) . " with: $message";
+    my $now = localtime( time );
+    my $time = -1;
+
+    if ( defined($lock{TIME}) ) {
+        $time = localtime( $lock{TIME} );
+    }
+
+    push @{ $lock{BREAKS} }, "${now} $ENV{GL_USER} broke lock: ${user} ${time} with: ${message}";
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
@@ -186,9 +193,21 @@ sub f_status {
     my %lock = get_lock();
 
     if ( $lock{USER} ) {
-        say "Repository locked by '$lock{USER}' since " . localtime( $lock{TIME} ) ." with message: $lock{MESSAGE} ";
+        my $time = -1;
+
+        if ( defined($lock{TIME}) ) {
+            $time = localtime( $lock{TIME} );
+        }
+
+        my $mesage = "";
+
+        if ( defined($lock{MESSAGE}) ) {
+            $mesage = $lock{MESSAGE};
+        }
+
+        say "Repository locked by '$lock{USER}' since ${time} with message: ${mesage} ";
     } else {
-        say "Repo '$repo' is not locked."
+        say "Repo '${repo}' is not locked."
     }
 }
 
