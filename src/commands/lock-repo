@@ -188,7 +188,7 @@ sub f_status {
     if ( $lock{USER} ) {
         say "Repository locked by '$lock{USER}' since " . localtime( $lock{TIME} ) ." with message: $lock{MESSAGE} ";
     } else {
-        say "Repo '$repo' is no tlocked."
+        say "Repo '$repo' is not locked."
     }
 }
 
