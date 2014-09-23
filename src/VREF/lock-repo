@@ -21,7 +21,7 @@ exit 0 unless -f $ff;
 
 our %lock;
 my $t = slurp($ff);
-eval $t;
+eval $t; ## no critic
 _die "do '$ff' failed with '$@', contact your administrator" if $@;
 
 if (    defined(%lock)

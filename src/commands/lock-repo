@@ -234,7 +234,7 @@ sub get_lock {
         our %lock;
 
         my $t = slurp(LOCK_FILE);
-        eval $t;
+        eval $t; ## no critic
         _die "Do '"
           . LOCK_FILE
           . "' failed with '$@', contact your administrator!"
