@@ -97,16 +97,13 @@ my $repo    = '';
 if ($lockRepo) {
     $op   = CMD_LOCK;
     $repo = $lockRepo;
-}
-elsif ($unlockRepo) {
+} elsif ($unlockRepo) {
     $op   = CMD_UNLOCK;
     $repo = $unlockRepo;
-}
-elsif ($breakRepo) {
+} elsif ($breakRepo) {
     $op   = CMD_BREAK;
     $repo = $breakRepo;
-}
-elsif ($statusRepo) {
+} elsif ($statusRepo) {
     $op   = CMD_STATUS;
     $repo = $statusRepo;
 }
@@ -125,19 +122,15 @@ _die "You are not authorised"
       and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
 
 _chdir( $ENV{GL_REPO_BASE} );
-_chdir("$repo.git")
-  ;    # .Git is only on the file system, not for the rights checking above!
+_chdir("$repo.git");    # .Git is only on the file system, not for the rights checking above!
 
 if ( $op eq CMD_LOCK ) {
     f_lock( $repo, $message );
-}
-elsif ( $op eq CMD_UNLOCK ) {
+} elsif ( $op eq CMD_UNLOCK ) {
     f_unlock($repo);
-}
-elsif ( $op eq CMD_BREAK ) {
+} elsif ( $op eq CMD_BREAK ) {
     f_break( $repo, $message );
-}
-elsif ( $op eq CMD_STATUS ) {
+} elsif ( $op eq CMD_STATUS ) {
     f_status($repo);
 }
 
@@ -150,9 +143,7 @@ sub f_lock {
     my %lock = get_lock();
 
     if ( $lock{USER} ) {
-        _die "Repo '$repo' locked by '$lock{USER}' since "
-          . localtime( $lock{TIME} )
-          . " with message: $lock{MESSAGE}";
+        _die "Repo '$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) . " with message: $lock{MESSAGE}";
     }
 
     $lock{USER}    = $ENV{GL_USER};
@@ -172,8 +163,7 @@ sub f_unlock {
     _die "Repo '$repo' was not locked!" unless $lock{USER};
 
     if ( $lock{USER} ne $ENV{GL_USER} ) {
-        _die
-          "Repo '${repo}' not locked by '$ENV{GL_USER}' but by '$lock{USER}'!";
+        _die "Repo '${repo}' not locked by '$ENV{GL_USER}' but by '$lock{USER}'!";
     }
 
     delete $lock{USER};
@@ -200,8 +190,7 @@ sub f_break {
         $time = localtime( $lock{TIME} );
     }
 
-    push @{ $lock{BREAKS} },
-      "${now} $ENV{GL_USER} broke lock: ${user} ${time} with: ${message}";
+    push @{ $lock{BREAKS} }, "${now} $ENV{GL_USER} broke lock: ${user} ${time} with: ${message}";
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
@@ -229,10 +218,8 @@ sub f_status {
             $mesage = $lock{MESSAGE};
         }
 
-        say
-"Repository locked by '$lock{USER}' since ${time} with message: ${mesage} ";
-    }
-    else {
+        say "Repository locked by '$lock{USER}' since ${time} with message: ${mesage} ";
+    } else {
         say "Repo '${repo}' is not locked.";
     }
 
@@ -244,10 +231,8 @@ sub get_lock {
         our %lock;
 
         my $t = slurp(LOCK_FILE);
-        eval $t; ## no critic
-        _die "Do '"
-          . LOCK_FILE
-          . "' failed with '$@', contact your administrator!"
+        eval $t;    ## no critic
+        _die "Do '" . LOCK_FILE . "' failed with '$@', contact your administrator!"
           if $@;
 
         return %lock;

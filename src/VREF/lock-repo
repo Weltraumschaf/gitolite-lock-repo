@@ -25,13 +25,12 @@ exit 0 unless -f $ff;
 
 our %lock;
 my $t = slurp($ff);
-eval $t; ## no critic
+eval $t;    ## no critic
 _die "do '$ff' failed with '$@', contact your administrator" if $@;
 
 if (    defined(%lock)
     and defined( $lock{USER} )
-    and ( $lock{USER} ne $ENV{GL_USER} ) )
-{
+    and ( $lock{USER} ne $ENV{GL_USER} ) ) {
     my $time = -1;
 
     if ( defined( $lock{TIME} ) ) {
@@ -44,8 +43,7 @@ if (    defined(%lock)
         $message = $lock{MESSAGE};
     }
 
-    _die
-"Repository locked by '$lock{USER}' since ${time} with message: ${message} ";
+    _die "Repository locked by '$lock{USER}' since ${time} with message: ${message} ";
 }
 
 exit 0
