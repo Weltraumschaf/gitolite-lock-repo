@@ -1,0 +1,62 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Perl::Critic;
+
+#
+# Files to critic.
+#
+my @files = (
+    'src/commands/lock-repo',
+    'src/VREF/lock-repo'
+);
+
+# See http://search.cpan.org/~thaljef/Perl-Critic-1.122/lib/Perl/Critic.pm
+#my $severity = 'gentle';
+my $severity = 'stern';
+#my $severity = 'harsh';
+#my $severity = 'cruel';
+#my $severity = 'brutal';
+my $critic = Perl::Critic->new(
+    -severity => $severity
+);
+
+foreach ( @files ) {
+    my $file = $_;
+    my @violations = critic( $file );
+    printReport( $file, \@violations );
+}
+
+sub critic {
+    my ($file) = @_;
+
+    return $critic->critique( $file );
+}
+
+sub printReport {
+    my ($file, $violations) = @_;
+    my $violationCount = @$violations;
+
+    print "=== Critics for file ${file} ===\n";
+
+    if ( 0 == $violationCount ) {
+        print "  There are no violations :-)\n";
+    } else {
+        print "  There are ${violationCount} violations for severity '${severity}':\n";
+        printViolations( @$violations );
+    }
+
+    print "\n";
+    return;
+}
+
+sub printViolations {
+    my (@violations) = @_;
+
+    for my $violation (@violations) {
+        print "  * ${violation}";
+    }
+
+    return;
+}
