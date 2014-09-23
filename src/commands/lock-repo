@@ -158,6 +158,8 @@ sub f_lock {
     $lock{MESSAGE} = $message;
     put_lock(%lock);
     say "Repo locked for '$ENV{GL_USER}'.";
+
+    return;
 }
 
 sub f_unlock {
@@ -177,6 +179,8 @@ sub f_unlock {
     delete $lock{MESSAGE};
     put_lock(%lock);
     say "Repo unlocked.";
+
+    return;
 }
 
 sub f_break {
@@ -201,6 +205,8 @@ sub f_break {
     delete $lock{MESSAGE};
     put_lock(%lock);
     say "Repo lock from '$user' broken.";
+
+    return;
 }
 
 sub f_status {
@@ -227,6 +233,8 @@ sub f_status {
     else {
         say "Repo '${repo}' is not locked.";
     }
+
+    return;
 }
 
 sub get_lock {
@@ -255,4 +263,6 @@ sub put_lock {
 
     my $dumped_data = Data::Dumper->Dump( [ \%lock ], [qw(*lock)] );
     _print( LOCK_FILE, $dumped_data );
+
+    return;
 }
