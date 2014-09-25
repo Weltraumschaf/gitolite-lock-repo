@@ -11,8 +11,8 @@ use Gitolite::Conf::Load;
 
 use constant CMD_LOCK   => 'lock';      ## no critic
 use constant CMD_UNLOCK => 'unlock';    ## no critic
-use constant CMD_BREAK  => 'break';     ## no critic
-use constant CMD_STATUS => 'status';    ## no critic
+use constant CMD_EXTERMINATE  => 'exterminate';   ## no critic
+use constant CMD_STATUS     => 'status';        ## no critic
 
 use constant LOCK_FILE => "gl-lockrepo"; ## no critic
 
@@ -21,14 +21,14 @@ use constant LOCK_FILE => "gl-lockrepo"; ## no critic
 =for usage
 Locks a whole repo to prevent pushing into it from any users, but the user which
 locked the repo. Only the issuer of the lock can unlock the repo. Any user with
-force rights (+) can break the lock of other users.
+force rights (+) can exterminate the lock of other users.
 
 Usage
 
-  ssh git@host lock-repo --lock   <repo> [--message <message>]
-  ssh git@host lock-repo --unlock <repo>
-  ssh git@host lock-repo --break  <repo> [--message <message>]
-  ssh git@host lock-repo --status <repo>
+  ssh git@host lock-repo --lock         <repo> [--message <message>]
+  ssh git@host lock-repo --unlock       <repo>
+  ssh git@host lock-repo --exterminate  <repo> [--message <message>]
+  ssh git@host lock-repo --status       <repo>
   ssh git@host lock-repo --help
 
 Options
@@ -38,15 +38,15 @@ Options
                             access rights.
   --unlock|-u <repo>        Unlocks a repo. This is only possible for the user
                             which performed the previous lock.
-  --break|-b <repo>         Breaks the lock of an other user. The user which
+  --exterminate|-e <repo>   Exterminates the lock of an other user. The user which
                             invokes this command need + right for that repo.
   --status|-s <repo>        Returns if the repo is locked or not.
-  --message|-m <message>    Optional message. Combineable with --lock and --break.
+  --message|-m <message>    Optional message. Combineable with --lock and --exterminate.
                             This message will be displayed to users which try to
                             push to a locked repo.
   -help|-h                  Shows this help.
 
-You MUST NOT combine --lock, --unlock and/or --break together in one command
+You MUST NOT combine --lock, --unlock and/or --exterminate together in one command
 invocation. That seems to be obvious, right?
 
 Update hook
@@ -76,14 +76,14 @@ $ENV{GL_USER} or _die "GL_USER not set";
 
 my $lockRepo   = '';
 my $unlockRepo = '';
-my $breakRepo  = '';
+my $exterminateRepo  = '';
 my $statusRepo = '';
 my @messageParts;
 
 GetOptions(
     "lock=s"        => \$lockRepo,
     "unlock=s"      => \$unlockRepo,
-    "break=s"       => \$breakRepo,
+    "exterminate=s"       => \$exterminateRepo,
     "status=s"      => \$statusRepo,
     "message=s{1,}" => \@messageParts
 ) or _die("Error in command line arguments!\n");
@@ -98,9 +98,9 @@ if ($lockRepo) {
 } elsif ($unlockRepo) {
     $op   = CMD_UNLOCK;
     $repo = $unlockRepo;
-} elsif ($breakRepo) {
-    $op   = CMD_BREAK;
-    $repo = $breakRepo;
+} elsif ($exterminateRepo) {
+    $op   = CMD_EXTERMINATE;
+    $repo = $exterminateRepo;
 } elsif ($statusRepo) {
     $op   = CMD_STATUS;
     $repo = $statusRepo;
@@ -116,7 +116,7 @@ if ( substr( $repo, -4 ) eq '.git' ) {
 _die "You are not authorised"
   if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
 _die "You are not authorised"
-  if $op eq CMD_BREAK
+  if $op eq CMD_EXTERMINATE
       and access( $repo, $ENV{GL_USER}, '+', 'any' ) =~ /DENIED/;
 
 _chdir( $ENV{GL_REPO_BASE} );
@@ -126,8 +126,8 @@ if ( $op eq CMD_LOCK ) {
     f_lock( $repo, $message );
 } elsif ( $op eq CMD_UNLOCK ) {
     f_unlock($repo);
-} elsif ( $op eq CMD_BREAK ) {
-    f_break( $repo, $message );
+} elsif ( $op eq CMD_EXTERMINATE ) {
+    f_exterminate( $repo, $message );
 } elsif ( $op eq CMD_STATUS ) {
     f_status($repo);
 }
@@ -173,7 +173,7 @@ sub f_unlock {
     return;
 }
 
-sub f_break {
+sub f_exterminate {
     my ( $repo, $message ) = @_;
 
     my %lock = get_lock();
@@ -188,7 +188,7 @@ sub f_break {
         $time = localtime( $lock{TIME} );
     }
 
-    push @{ $lock{BREAKS} }, "${now} $ENV{GL_USER} broke lock: ${user} ${time} with: ${message}";
+    push @{ $lock{EXTERMINATES} }, "${now} $ENV{GL_USER} broke lock: ${user} ${time} with: ${message}";
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
