@@ -7,8 +7,6 @@ use Gitolite::Common;
 
 use POSIX qw( strftime );
 
-use Readonly;
-
 # gitolite VREF to lock and unlock (repository.  Requires companion command
 # 'lock-repo' to be enabled.
 
@@ -16,11 +14,9 @@ use Readonly;
 
 # see gitolite docs for what the first 7 arguments mean
 
-Readonly my $LOCK_FILE => "gl-lockrepo";
-
 die "not meant to be run manually" unless $ARGV[6];
 
-Readonly my $ff = "$ENV{GL_REPO_BASE}/$ENV{GL_REPO}.git/${LOCK_FILE}";
+my $ff = "$ENV{GL_REPO_BASE}/$ENV{GL_REPO}.git/gl-lockrepo";
 exit 0 unless -f $ff;
 
 our %lock;

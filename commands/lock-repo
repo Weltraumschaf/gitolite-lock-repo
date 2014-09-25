@@ -9,7 +9,12 @@ use Gitolite::Rc;
 use Gitolite::Common;
 use Gitolite::Conf::Load;
 
-use Readonly;
+use constant CMD_LOCK   => 'lock';      ## no critic
+use constant CMD_UNLOCK => 'unlock';    ## no critic
+use constant CMD_BREAK  => 'break';     ## no critic
+use constant CMD_STATUS => 'status';    ## no critic
+
+use constant LOCK_FILE => "gl-lockrepo"; ## no critic
 
 # TODO remove .git from CLI option, if given ( --lock foo.git -> --lock foo)
 
@@ -65,13 +70,6 @@ Bugs
 
 Bugs you can report to https://github.com/Weltraumschaf/gitolite/issues
 =cut
-
-Readonly my $CMD_LOCK   => 'lock';
-Readonly my $CMD_UNLOCK => 'unlock';
-Readonly my $CMD_BREAK  => 'break';
-Readonly my $CMD_STATUS => 'status';
-
-Readonly my $LOCK_FILE => "gl-lockrepo";
 
 usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help';
 $ENV{GL_USER} or _die "GL_USER not set";
