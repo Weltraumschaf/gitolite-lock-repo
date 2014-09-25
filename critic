@@ -8,8 +8,8 @@ use Perl::Critic;
 # Files to critic.
 #
 my @files = (
-    'src/commands/lock-repo',
-    'src/VREF/lock-repo'
+    'commands/lock-repo',
+    'VREF/lock-repo'
 );
 
 # See http://search.cpan.org/~thaljef/Perl-Critic-1.122/lib/Perl/Critic.pm
