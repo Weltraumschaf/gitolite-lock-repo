@@ -3,18 +3,21 @@ use strict;
 use warnings;
 
 use Getopt::Long;
+use FindBin;
 
-use lib $ENV{GL_LIBDIR};
+BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../lib"; }
+
+use lib $ENV{GL_LIBDIR} $ENV{LOCKREPO_LIBDIR};
 use Gitolite::Rc;
 use Gitolite::Common;
 use Gitolite::Conf::Load;
 
-use constant CMD_LOCK   => 'lock';      ## no critic
-use constant CMD_UNLOCK => 'unlock';    ## no critic
-use constant CMD_EXTERMINATE  => 'exterminate';   ## no critic
-use constant CMD_STATUS     => 'status';        ## no critic
+use constant CMD_LOCK        => 'lock';           ## no critic
+use constant CMD_UNLOCK      => 'unlock';         ## no critic
+use constant CMD_EXTERMINATE => 'exterminate';    ## no critic
+use constant CMD_STATUS      => 'status';         ## no critic
 
-use constant LOCK_FILE => "gl-lockrepo"; ## no critic
+use constant LOCK_FILE => "gl-lockrepo";          ## no critic
 
 # TODO remove .git from CLI option, if given ( --lock foo.git -> --lock foo)
 
@@ -74,16 +77,16 @@ Bugs you can report to https://github.com/Weltraumschaf/gitolite/issues
 usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help';
 $ENV{GL_USER} or _die "GL_USER not set";
 
-my $lockRepo   = '';
-my $unlockRepo = '';
-my $exterminateRepo  = '';
-my $statusRepo = '';
+my $lockRepo        = '';
+my $unlockRepo      = '';
+my $exterminateRepo = '';
+my $statusRepo      = '';
 my @messageParts;
 
 GetOptions(
     "lock=s"        => \$lockRepo,
     "unlock=s"      => \$unlockRepo,
-    "exterminate=s"       => \$exterminateRepo,
+    "exterminate=s" => \$exterminateRepo,
     "status=s"      => \$statusRepo,
     "message=s{1,}" => \@messageParts
 ) or _die("Error in command line arguments!\n");

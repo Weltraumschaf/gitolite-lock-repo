@@ -1,8 +1,13 @@
 #!/usr/bin/perl
+
 use strict;
 use warnings;
 
-use lib $ENV{GL_LIBDIR};
+use FindBin;
+
+BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../lib"; }
+
+use lib $ENV{GL_LIBDIR} $ENV{LOCKREPO_LIBDIR};
 use Gitolite::Common;
 
 use POSIX qw( strftime );
