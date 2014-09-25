@@ -5,7 +5,7 @@ use warnings;
 
 use FindBin;
 
-BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../lib"; }
+BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../src/lib"; }
 
 use lib $ENV{GL_LIBDIR} $ENV{LOCKREPO_LIBDIR};
 use Gitolite::Common;
