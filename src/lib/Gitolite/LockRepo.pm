@@ -6,6 +6,11 @@ package Gitolite::LockRepo;
 #<<<
 @EXPORT = qw(
     LOCK_FILE
+    CMD_LOCK
+    CMD_UNLOCK
+    CMD_EXTERMINATE
+    CMD_STATUS
+
     get_lock
     put_lock
     error
