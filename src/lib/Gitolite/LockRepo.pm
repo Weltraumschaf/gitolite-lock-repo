@@ -9,6 +9,7 @@ package Gitolite::LockRepo;
     get_lock
     put_lock
     error
+    remove_trailing_git
 );
 #>>>
 use Exporter 'import';
@@ -61,6 +62,16 @@ sub put_lock {
 sub error {
     my($message) = @_;
     _die($message);
+}
+
+sub remove_trailing_git {
+    my($input) = @_;
+
+    if ( substr( $input, -4 ) eq '.git' ) {
+        return substr( $input, 0, rindex( $input, q{.} ) );
+    }
+
+    return $input;
 }
 
 1;

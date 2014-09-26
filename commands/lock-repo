@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use Getopt::Long;
 use FindBin;
 
 BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../src/lib"; }
@@ -13,8 +12,7 @@ use Gitolite::Rc;
 use Gitolite::Common;
 use Gitolite::Conf::Load;
 use Gitolite::LockRepo;
-
-# TODO remove .git from CLI option, if given ( --lock foo.git -> --lock foo)
+use Getopt::Long;
 
 =for usage
 Locks a whole repo to prevent pushing into it from any users, but the user which
@@ -106,11 +104,9 @@ if ($lockRepo) {
 
 usage() if not $op;
 
-if ( substr( $repo, -4 ) eq '.git' ) {
+# Remove trailing .git because access right check will fail with it.
+$repo = remove_trailing_git($repo);
 
-    # Remove trailing .git because access right check will fail with it.
-    $repo = substr( $repo, 0, rindex( $repo, q{.} ) );
-}
 _die "You are not authorised"
   if access( $repo, $ENV{GL_USER}, 'W', 'any' ) =~ /DENIED/;
 _die "You are not authorised"
