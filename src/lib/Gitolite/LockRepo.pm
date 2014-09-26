@@ -24,6 +24,11 @@ use Gitolite::Conf::Load;
 
 use constant LOCK_FILE => "gl-lockrepo";          ## no critic
 
+use constant CMD_LOCK        => 'lock';           ## no critic
+use constant CMD_UNLOCK      => 'unlock';         ## no critic
+use constant CMD_EXTERMINATE => 'exterminate';    ## no critic
+use constant CMD_STATUS      => 'status';         ## no critic
+
 sub get_lock {
     my ($filename) = @_;
 
@@ -41,18 +46,14 @@ sub get_lock {
 }
 
 sub put_lock {
-    #my %lock = @_;
-    my %lock = ();
-    $lock{USER}    = 'user';
-    $lock{TIME}    = time;
-    $lock{MESSAGE} = 'message';
+    my ($filename, %lock) = @_;
 
     use Data::Dumper;
     $Data::Dumper::Indent   = 1;
     $Data::Dumper::Sortkeys = 1;
 
     my $dumped_data = Data::Dumper->Dump( [ \%lock ], [qw(*lock)] );
-    _print( LOCK_FILE, $dumped_data );
+    _print( $filename, $dumped_data );
 
     return;
 }

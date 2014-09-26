@@ -10,14 +10,28 @@ use lib $ENV{GL_LIBDIR};
 use lib $ENV{LOCKREPO_LIBDIR};
 
 use Test::More;
-use File::Temp qw/ tempfile tempdir /;
+use File::Temp qw( tempfile tempdir );
+use Gitolite::Common;
+
 use Gitolite::LockRepo;
 
-my($fh, $filename) = tempfile();
+my ($fh, $filename) = tempfile();
+put_lock($filename, ());
+is( slurp($filename), '%lock = ();' . "\n", "Expect empty hash structure." );
 
-#print "fh: ${fh}\n";
-#print "filename: ${filename}\n";
+my %myData = ();
+$myData{USER}    = 'username';
+$myData{TIME}    = 123456789;
+$myData{MESSAGE} = 'message';
+put_lock($filename, %myData);
+my $expected = <<'END_TEXT';
+%lock = (
+  'MESSAGE' => 'message',
+  'TIME' => 123456789,
+  'USER' => 'username'
+);
+END_TEXT
 
-ok(1 == 1);
+is( slurp($filename), $expected, "Expect hash structure." );
 
 done_testing();
