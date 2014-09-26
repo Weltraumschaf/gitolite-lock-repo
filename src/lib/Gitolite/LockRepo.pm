@@ -8,6 +8,7 @@ package Gitolite::LockRepo;
     LOCK_FILE
     get_lock
     put_lock
+    error
 );
 #>>>
 use Exporter 'import';
@@ -27,11 +28,11 @@ sub get_lock {
     my ($filename) = @_;
 
     if ( -f $filename ) {
-        our %lock;
+        our %lock = ();
 
         my $t = slurp($filename);
         eval $t;    ## no critic
-        _die "Do '${filename}' failed with '$@', contact your administrator!" if $@;
+        error("Read '${filename}' failed with '${@}', contact your administrator!") if $@;
 
         return %lock;
     }
@@ -54,6 +55,11 @@ sub put_lock {
     _print( LOCK_FILE, $dumped_data );
 
     return;
+}
+
+sub error {
+    my($message) = @_;
+    _die($message);
 }
 
 1;

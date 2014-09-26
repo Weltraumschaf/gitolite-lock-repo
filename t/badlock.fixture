@@ -1,0 +1,5 @@
+%lock = (
+  'MESSAGE' => 'message
+  'TIME' => 1411721884
+  'USER' => 'user'
+);
