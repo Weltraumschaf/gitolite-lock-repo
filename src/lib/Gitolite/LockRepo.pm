@@ -1,13 +1,13 @@
 package Gitolite::LockRepo;
 
 # Common functions for lock-repo command and update hook.
-# Everything below assumes we have already chdir'd to "$repo.git".
 # -------------------------------------------------------
 
 #<<<
 @EXPORT = qw(
-  get_lock
-  put_lock
+    LOCK_FILE
+    get_lock
+    put_lock
 );
 #>>>
 use Exporter 'import';
@@ -24,13 +24,14 @@ use Gitolite::Conf::Load;
 use constant LOCK_FILE => "gl-lockrepo";          ## no critic
 
 sub get_lock {
-    if ( -f LOCK_FILE ) {
+    my ($filename) = @_;
+
+    if ( -f $filename ) {
         our %lock;
 
-        my $t = slurp(LOCK_FILE);
+        my $t = slurp($filename);
         eval $t;    ## no critic
-        _die "Do '" . LOCK_FILE . "' failed with '$@', contact your administrator!"
-          if $@;
+        _die "Do '${filename}' failed with '$@', contact your administrator!" if $@;
 
         return %lock;
     }
@@ -39,7 +40,11 @@ sub get_lock {
 }
 
 sub put_lock {
-    my %lock = @_;
+    #my %lock = @_;
+    my %lock = ();
+    $lock{USER}    = 'user';
+    $lock{TIME}    = time;
+    $lock{MESSAGE} = 'message';
 
     use Data::Dumper;
     $Data::Dumper::Indent   = 1;
