@@ -3,10 +3,11 @@
 use strict;
 use warnings;
 
-use FindBin;
-BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../src/lib"; }
+use FindBin qw( $RealBin );
+BEGIN { $ENV{LOCKREPO_LIBDIR} = "${RealBin}/../src/lib"; }
+use lib $ENV{GL_LIBDIR};
+use lib $ENV{LOCKREPO_LIBDIR};
 
-use lib $ENV{GL_LIBDIR} $ENV{LOCKREPO_LIBDIR};
 use Gitolite::Rc;
 use Gitolite::Common;
 use Gitolite::Conf::Load;
