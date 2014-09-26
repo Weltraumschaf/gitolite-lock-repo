@@ -20,4 +20,16 @@ And then add the push hook to the `conf/gitolite.conf`:
 
 The example above activates the hook for all repos for everyone.
 
+## Testing
+
+To ru nthe unit tests it is necessary to define an environment varibale where
+the Gitolite lib is found:
+
+    $> export GL_LIBDIR=/some/where/gitolite/src/lib
+
+After that invoke [prove(1)][prove] in the project's base directory:
+
+    $> prove
+
 [gitolite]: http://gitolite.com/gitolite/index.html
+[prove]:    http://linux.die.net/man/1/prove
