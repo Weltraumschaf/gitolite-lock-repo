@@ -31,5 +31,7 @@ After that invoke [prove(1)][prove] in the project's base directory:
 
     $> prove
 
+Or for convenience invoke the script `./test` (after changing the `GL_LIBDIR`).
+
 [gitolite]: http://gitolite.com/gitolite/index.html
 [prove]:    http://linux.die.net/man/1/prove
