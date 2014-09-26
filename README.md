@@ -32,7 +32,8 @@ After that invoke [prove(1)][prove] in the project's base directory:
 
     $> prove
 
-Or for convenience invoke the script `./test` (after changing the `GL_LIBDIR`).
+Or for convenience invoke the script `./test` (after changing the `GL_LIBDIR`
+variable in the script).
 
 [gitolite]: http://gitolite.com/gitolite/index.html
 [doc]:      https://raw.githubusercontent.com/Weltraumschaf/gitolite-lock-repo/master/commands/lock-repo
