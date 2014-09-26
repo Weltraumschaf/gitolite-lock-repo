@@ -1,6 +1,7 @@
 # gitolite-lock-repo
 
 Command to lock repo at [Gitolite][gitolite] via SSH command.
+For detailed information see the [command documentation][doc].
 
 ## Installation
 
@@ -34,4 +35,5 @@ After that invoke [prove(1)][prove] in the project's base directory:
 Or for convenience invoke the script `./test` (after changing the `GL_LIBDIR`).
 
 [gitolite]: http://gitolite.com/gitolite/index.html
+[doc]:      https://raw.githubusercontent.com/Weltraumschaf/gitolite-lock-repo/master/commands/lock-repo
 [prove]:    http://linux.die.net/man/1/prove
