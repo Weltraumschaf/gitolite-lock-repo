@@ -4,12 +4,11 @@ use strict;
 use warnings;
 
 use FindBin;
-
 BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../src/lib"; }
 
 use lib $ENV{GL_LIBDIR} $ENV{LOCKREPO_LIBDIR};
 use Gitolite::Common;
-
+use Gitolite::LockRepo;
 use POSIX qw( strftime );
 
 # gitolite VREF to lock and unlock (repository.  Requires companion command
@@ -21,13 +20,7 @@ use POSIX qw( strftime );
 
 die "not meant to be run manually" unless $ARGV[6];
 
-my $ff = "$ENV{GL_REPO_BASE}/$ENV{GL_REPO}.git/gl-lockrepo";
-exit 0 unless -f $ff;
-
-our %lock;
-my $t = slurp($ff);
-eval $t;    ## no critic
-_die "do '$ff' failed with '$@', contact your administrator" if $@;
+my %lock = get_lock(LOCK_FILE);
 
 if (    defined(%lock)
     and defined( $lock{USER} )

@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use FindBin;
-
 BEGIN { $ENV{LOCKREPO_LIBDIR} = "${FindBin::RealBin}/../src/lib"; }
 
 use lib $ENV{GL_LIBDIR} $ENV{LOCKREPO_LIBDIR};
@@ -132,7 +131,7 @@ if ( $op eq CMD_LOCK ) {
 sub f_lock {
     my ( $repo, $message ) = @_;
 
-    my %lock = get_lock();
+    my %lock = get_lock(LOCK_FILE);
 
     if ( $lock{USER} ) {
         _die "Repo '$repo' locked by '$lock{USER}' since " . localtime( $lock{TIME} ) . " with message: $lock{MESSAGE}";
@@ -141,7 +140,7 @@ sub f_lock {
     $lock{USER}    = $ENV{GL_USER};
     $lock{TIME}    = time;
     $lock{MESSAGE} = $message;
-    put_lock(%lock);
+    put_lock(LOCK_FILE, %lock);
     say "Repo locked for '$ENV{GL_USER}'.";
 
     return;
@@ -150,7 +149,7 @@ sub f_lock {
 sub f_unlock {
     my ($repo) = @_;
 
-    my %lock = get_lock();
+    my %lock = get_lock(LOCK_FILE);
 
     _die "Repo '$repo' was not locked!" unless $lock{USER};
 
@@ -161,7 +160,7 @@ sub f_unlock {
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
-    put_lock(%lock);
+    put_lock(LOCK_FILE, %lock);
     say "Repo unlocked.";
 
     return;
@@ -170,7 +169,7 @@ sub f_unlock {
 sub f_exterminate {
     my ( $repo, $message ) = @_;
 
-    my %lock = get_lock();
+    my %lock = get_lock(LOCK_FILE);
 
     _die "Repo '$repo' was not locked!" unless $lock{USER};
 
@@ -186,7 +185,7 @@ sub f_exterminate {
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
-    put_lock(%lock);
+    put_lock(LOCK_FILE, %lock);
     say "Repo lock from '$user' broken.";
 
     return;
@@ -195,7 +194,7 @@ sub f_exterminate {
 sub f_status {
     my ($repo) = @_;
 
-    my %lock = get_lock();
+    my %lock = get_lock(LOCK_FILE);
 
     if ( $lock{USER} ) {
         my $time = -1;
