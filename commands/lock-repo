@@ -12,13 +12,12 @@ use lib $ENV{GL_LIBDIR} $ENV{LOCKREPO_LIBDIR};
 use Gitolite::Rc;
 use Gitolite::Common;
 use Gitolite::Conf::Load;
+use Gitolite::LockRepo;
 
 use constant CMD_LOCK        => 'lock';           ## no critic
 use constant CMD_UNLOCK      => 'unlock';         ## no critic
 use constant CMD_EXTERMINATE => 'exterminate';    ## no critic
 use constant CMD_STATUS      => 'status';         ## no critic
-
-use constant LOCK_FILE => "gl-lockrepo";          ## no critic
 
 # TODO remove .git from CLI option, if given ( --lock foo.git -> --lock foo)
 
@@ -224,34 +223,6 @@ sub f_status {
     } else {
         say "Repo '${repo}' is not locked.";
     }
-
-    return;
-}
-
-sub get_lock {
-    if ( -f LOCK_FILE ) {
-        our %lock;
-
-        my $t = slurp(LOCK_FILE);
-        eval $t;    ## no critic
-        _die "Do '" . LOCK_FILE . "' failed with '$@', contact your administrator!"
-          if $@;
-
-        return %lock;
-    }
-
-    return ();
-}
-
-sub put_lock {
-    my %lock = @_;
-
-    use Data::Dumper;
-    $Data::Dumper::Indent   = 1;
-    $Data::Dumper::Sortkeys = 1;
-
-    my $dumped_data = Data::Dumper->Dump( [ \%lock ], [qw(*lock)] );
-    _print( LOCK_FILE, $dumped_data );
 
     return;
 }
