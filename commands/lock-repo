@@ -14,11 +14,6 @@ use Gitolite::Common;
 use Gitolite::Conf::Load;
 use Gitolite::LockRepo;
 
-use constant CMD_LOCK        => 'lock';           ## no critic
-use constant CMD_UNLOCK      => 'unlock';         ## no critic
-use constant CMD_EXTERMINATE => 'exterminate';    ## no critic
-use constant CMD_STATUS      => 'status';         ## no critic
-
 # TODO remove .git from CLI option, if given ( --lock foo.git -> --lock foo)
 
 =for usage
