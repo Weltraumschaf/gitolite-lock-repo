@@ -1,5 +1,8 @@
 package Gitolite::LockRepo;
 
+use strict;
+use warnings;
+
 # Common functions for lock-repo command and update hook.
 # -------------------------------------------------------
 
