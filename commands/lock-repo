@@ -141,7 +141,7 @@ sub f_lock {
     $lock{USER}    = $ENV{GL_USER};
     $lock{TIME}    = time;
     $lock{MESSAGE} = $message;
-    put_lock(LOCK_FILE, %lock);
+    put_lock( LOCK_FILE, %lock );
     say "Repo locked for '$ENV{GL_USER}'.";
 
     return;
@@ -161,7 +161,7 @@ sub f_unlock {
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
-    put_lock(LOCK_FILE, %lock);
+    put_lock( LOCK_FILE, %lock );
     say "Repo unlocked.";
 
     return;
@@ -186,7 +186,7 @@ sub f_exterminate {
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
-    put_lock(LOCK_FILE, %lock);
+    put_lock( LOCK_FILE, %lock );
     say "Repo lock from '$user' broken.";
 
     return;

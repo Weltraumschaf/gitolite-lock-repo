@@ -28,7 +28,7 @@ use Gitolite::Conf::Load;
 
 # ----------------------------------------------------------------------
 
-use constant LOCK_FILE => "gl-lockrepo";          ## no critic
+use constant LOCK_FILE => "gl-lockrepo";    ## no critic
 
 use constant CMD_LOCK        => 'lock';           ## no critic
 use constant CMD_UNLOCK      => 'unlock';         ## no critic
@@ -42,7 +42,7 @@ sub get_lock {
         our %lock = ();
 
         my $t = slurp($filename);
-        eval $t;    ## no critic
+        eval $t;                                  ## no critic
         error("Read '${filename}' failed with '${@}', contact your administrator!") if $@;
 
         return %lock;
@@ -52,7 +52,7 @@ sub get_lock {
 }
 
 sub put_lock {
-    my ($filename, %lock) = @_;
+    my ( $filename, %lock ) = @_;
 
     use Data::Dumper;
     $Data::Dumper::Indent   = 1;
@@ -65,12 +65,12 @@ sub put_lock {
 }
 
 sub error {
-    my($message) = @_;
+    my ($message) = @_;
     _die($message);
 }
 
 sub remove_trailing_git {
-    my($input) = @_;
+    my ($input) = @_;
 
     if ( substr( $input, -4 ) eq '.git' ) {
         return substr( $input, 0, rindex( $input, q{.} ) );

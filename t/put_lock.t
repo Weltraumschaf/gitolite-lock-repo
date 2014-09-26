@@ -15,15 +15,15 @@ use Gitolite::Common;
 
 use Gitolite::LockRepo;
 
-my ($fh, $filename) = tempfile();
-put_lock($filename, ());
+my ( $fh, $filename ) = tempfile();
+put_lock( $filename, () );
 is( slurp($filename), '%lock = ();' . "\n", "Expect empty hash structure." );
 
 my %myData = ();
 $myData{USER}    = 'username';
 $myData{TIME}    = 123456789;
 $myData{MESSAGE} = 'message';
-put_lock($filename, %myData);
+put_lock( $filename, %myData );
 my $expected = <<'END_TEXT';
 %lock = (
   'MESSAGE' => 'message',
