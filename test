@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export GL_LIBDIR=/some/where/gitolite/src/lib
+watch --color -n 1 prove -v
