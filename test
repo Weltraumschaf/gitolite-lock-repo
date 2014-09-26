@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Where is the Gitolite lib dir?
+# CHANGE THIS to where the Gitolite lib dir is:
 GL_LIBDIR=/some/where/gitolite/src/lib
 # Test repetition.
-INTERVAL=2
+INTERVAL=1
 export GL_LIBDIR
 
 while [ : ]
