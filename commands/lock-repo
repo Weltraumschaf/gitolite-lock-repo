@@ -182,12 +182,12 @@ sub f_exterminate {
         $time = localtime( $lock{TIME} );
     }
 
-    push @{ $lock{EXTERMINATES} }, "${now} $ENV{GL_USER} broke lock: ${user} ${time} with: ${message}";
+    push @{ $lock{EXTERMINATES} }, "${now} $ENV{GL_USER} exterminates lock: ${user} ${time} with: ${message}";
     delete $lock{USER};
     delete $lock{TIME};
     delete $lock{MESSAGE};
     put_lock( LOCK_FILE, %lock );
-    say "Repo lock from '$user' broken.";
+    say "Repo lock from '$user' exterminated.";
 
     return;
 }
