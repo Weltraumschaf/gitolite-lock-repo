@@ -9,14 +9,14 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = ();
-is( hasBranchLock('branchname', %myData), 0, "Empty hash.");
+is( hasBranchLock('branchname', %myData), '', "Empty hash.");
 
 %myData = setGeneralLock('user', 42, 'message', %myData);
-is( hasBranchLock('branchname', %myData), 0, "General lock.");
+is( hasBranchLock('branchname', %myData), '', "General lock.");
 
 %myData = setBranchLock('branchname', 'user', 42, 'message', %myData);
-is( hasBranchLock('branchname', %myData), 1, "Branch locked.");
+is( hasBranchLock('branchname', %myData), '1', "Branch locked.");
 
-is( hasBranchLock('othername', %myData), 0, "Branch not locked.");
+is( hasBranchLock('othername', %myData), '', "Branch not locked.");
 
 done_testing();

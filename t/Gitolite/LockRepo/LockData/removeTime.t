@@ -12,6 +12,6 @@ my %myData = setTime(42, ());
 is( hasTime(%myData), 1, 'Time set.');
 
 %myData = removeTime(%myData);
-is( hasTime(%myData), 0, 'Time removed.');
+is( hasTime(%myData), '', 'Time removed.');
 
 done_testing();

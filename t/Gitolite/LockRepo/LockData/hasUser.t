@@ -9,7 +9,7 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = ();
-is( hasUser(%myData), 0, 'Empty hash.');
+is( hasUser(%myData), '', 'Empty hash.');
 
 %myData = setUser('user', %myData);
 is( hasUser(%myData), 1, 'User set.');

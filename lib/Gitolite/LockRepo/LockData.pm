@@ -73,9 +73,9 @@ sub removeGeneralLock {
 sub hasBranchLock {
     my ($branchname, %data) = @_;
 
-    return 0 unless hasBranches( %data );
-    return 0 unless exists $data{KEY_BRANCHES}{$branchname};
-    return 0;
+    return '' unless hasBranches( %data );
+    return '' unless exists $data{KEY_BRANCHES};
+    return exists $data{KEY_BRANCHES}{$branchname};
 }
 
 sub setBranchLock {

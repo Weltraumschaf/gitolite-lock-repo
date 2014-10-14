@@ -9,7 +9,7 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = ();
-is( hasMessage(%myData), 0, 'Empty hash.');
+is( hasMessage(%myData), '', 'Empty hash.');
 
 %myData = setMessage('message', %myData);
 is( hasMessage(%myData), 1, 'Message set.');

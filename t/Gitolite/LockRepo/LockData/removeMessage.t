@@ -12,6 +12,6 @@ my %myData = setMessage('message', ());
 is( hasMessage(%myData), 1, 'Message set.');
 
 %myData = removeMessage(%myData);
-is( hasMessage(%myData), 0, 'Message removed.');
+is( hasMessage(%myData), '', 'Message removed.');
 
 done_testing();
