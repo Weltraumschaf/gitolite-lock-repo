@@ -7,7 +7,7 @@ For detailed information see the [command documentation][doc].
 
 Clone this repo into your site local location:
 
-    ~ $> git clone git@github.com:Weltraumschaf/gitolite-lock-repo.git local
+    $> git clone git@github.com:Weltraumschaf/gitolite-lock-repo.git local
 
 Add this location to your `.gitolite.rc`:
 
