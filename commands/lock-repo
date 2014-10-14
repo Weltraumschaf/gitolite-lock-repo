@@ -17,34 +17,55 @@ use Getopt::Long;
 =for usage
 Locks a whole repo to prevent pushing into it from any users, but the user which
 locked the repo. Only the issuer of the lock can unlock the repo. Any user with
-force rights (+) can exterminate the lock of other users.
+force rights (+) can break the lock of other users.
 
 Usage
 
-  ssh git@host lock-repo --lock         <repo> [--message <message>]
-  ssh git@host lock-repo --unlock       <repo>
-  ssh git@host lock-repo --exterminate  <repo> [--message <message>]
-  ssh git@host lock-repo --status       <repo>
-  ssh git@host lock-repo --help
+  ssh git@host lock-repo lock|unlock|break|status|help <repo> [-m] [-b]
 
-Options
+Sub-Commands and their Options
 
-  --lock|-l <repo>          Locks a repo for the user which invoked the command.
-                            The repo must exist and the user need appropriate
-                            access rights.
-  --unlock|-u <repo>        Unlocks a repo. This is only possible for the user
-                            which performed the previous lock.
-  --exterminate|-e <repo>   Exterminates the lock of an other user. The user
-                            which invokes this command need + right for that
-                            repo.
-  --status|-s <repo>        Returns if the repo is locked or not.
-  --message|-m <message>    Optional message. Combineable with --lock and
-                            --exterminate. This message will be displayed to
-                            users which try to push to a locked repo.
-  -help|-h                  Shows this help.
+The lock-repo provides several sub-commands:
 
-You MUST NOT combine --lock, --unlock and/or --exterminate together in one command
-invocation. That seems to be obvious, right?
+  lock sub-command
+    Locks a repo for the user which invoked the command. The repo must exist
+    and the user need appropriate access rights.
+
+    Usage: ssh git@host lock-repo lock<repo> [-m <message>] [-b <name>]
+
+    Options:
+    --message|-m <message>  Optional message. Combineable with. This message
+                            will be displayed to users which try to push to a
+                            locked repo.
+    --branch|-n <name>      Name of particular branch to lock. If this option is
+                            ommitted the whole repo will be locked.
+
+  unlock sub-command
+    Unlocks a repo. This is only possible for the user which performed the
+    previous lock.
+
+    Usage: ssh git@host lock-repo unlock <repo> [--b <name>]
+
+  break sub-command
+    Breaks the lock of an other user. The user which invokes this command need
+    + right for that repo.
+
+    Usage: ssh git@host lock-repo break <repo> [-b <name>] [-m <message>]
+
+    Options:
+    --message|-m <message>  Optional message. Combineable with. This message
+                            will be displayed to users which try to push to a
+                            locked repo.
+
+  status sub-command
+    Returns if the repo is locked or not.
+
+    Usage: ssh git@host lock-repo status <repo>
+
+  help sub-command
+    Shows this help.
+
+    Usage: ssh git@host lock-repo help
 
 Update hook
 
@@ -58,12 +79,10 @@ the bottom of your gitolite.conf:
 FAQ
 
  Q: What should I do, if repo can't be unlocked?
- A: The lock information is stored in the bare repository in the file "gl-lockrepo".
-    If you remove the file the repo is unlocked. That you can't unlock a repo
-    may only happen due to bug. So for debugging it may be helpfull to keep a
-    backup of that file.
-
-Bugs
+ A: The lock information is stored in the bare repository in the file
+    "gl-lockrepo". If you remove the file the repo is unlocked. That you
+    can't unlock a repo may only happen due to bug. So for debugging it may
+    be helpfull to keep a backup of that file.
 
 Bugs you can report to https://github.com/Weltraumschaf/gitolite-lock-repo/issues
 =cut
