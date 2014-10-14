@@ -10,6 +10,6 @@ INTERVAL=1
 while [ : ]
 do
     clear
-    prove --color -v
+    prove --color -v -l
     sleep ${INTERVAL}
 done

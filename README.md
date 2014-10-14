@@ -12,7 +12,7 @@ the Gitolite lib is found:
 
 After that invoke [prove(1)][prove] in the project's base directory:
 
-    $> prove
+    $> prove -l
 
 Or for convenience invoke the script `./test` (after changing the `GL_LIBDIR`
 variable in the script). This will run prove continuously each second.
