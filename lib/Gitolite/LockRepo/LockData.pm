@@ -109,8 +109,7 @@ sub getBranchLock {
 
 sub hasMessage {
     my (%data) = @_;
-    return 1 if exists $data{KEY_MESSAGE};
-    return 0;
+    return exists $data{KEY_MESSAGE};
 }
 
 sub getMessage {
@@ -141,8 +140,7 @@ sub removeMessage {
 
 sub hasTime {
     my (%data) = @_;
-    return 1 if exists $data{KEY_TIME};
-    return 0;
+    return exists $data{KEY_TIME};
 }
 
 sub getTime {
@@ -173,8 +171,7 @@ sub removeTime {
 
 sub hasUser {
     my (%data) = @_;
-    return 1 if exists $data{KEY_USER};
-    return 0;
+    return exists $data{KEY_USER};
 }
 
 sub getUser {
@@ -205,8 +202,7 @@ sub removeUser {
 
 sub hasBranches {
     my (%data) = @_;
-    return 1 if exists $data{KEY_BRANCHES};
-    return 0;
+    return exists $data{KEY_BRANCHES};
 }
 
 1;
