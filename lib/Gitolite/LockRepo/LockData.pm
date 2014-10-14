@@ -74,7 +74,7 @@ sub hasBranchLock {
     my ($branchname, %data) = @_;
 
     return 0 unless hasBranches( %data );
-    return 0 unless defined $data{KEY_BRANCHES}{$branchname};
+    return 0 unless exists $data{KEY_BRANCHES}{$branchname};
     return 0;
 }
 
@@ -100,7 +100,7 @@ sub removeBranchLock {
 sub getBranchLock {
     my ($branchname, %data) = @_;
 
-    if (defined $data{KEY_BRANCHES}{$branchname}) {
+    if (exists $data{KEY_BRANCHES}{$branchname}) {
         return %{$data{KEY_BRANCHES}{$branchname}};
     }
 
@@ -109,7 +109,7 @@ sub getBranchLock {
 
 sub hasMessage {
     my (%data) = @_;
-    return 1 if defined $data{KEY_MESSAGE};
+    return 1 if exists $data{KEY_MESSAGE};
     return 0;
 }
 
@@ -141,7 +141,7 @@ sub removeMessage {
 
 sub hasTime {
     my (%data) = @_;
-    return 1 if defined $data{KEY_TIME};
+    return 1 if exists $data{KEY_TIME};
     return 0;
 }
 
@@ -173,7 +173,7 @@ sub removeTime {
 
 sub hasUser {
     my (%data) = @_;
-    return 1 if defined $data{KEY_USER};
+    return 1 if exists $data{KEY_USER};
     return 0;
 }
 
@@ -205,7 +205,7 @@ sub removeUser {
 
 sub hasBranches {
     my (%data) = @_;
-    return 1 if defined $data{KEY_BRANCHES};
+    return 1 if exists $data{KEY_BRANCHES};
     return 0;
 }
 
