@@ -34,12 +34,13 @@ Options
                             access rights.
   --unlock|-u <repo>        Unlocks a repo. This is only possible for the user
                             which performed the previous lock.
-  --exterminate|-e <repo>   Exterminates the lock of an other user. The user which
-                            invokes this command need + right for that repo.
+  --exterminate|-e <repo>   Exterminates the lock of an other user. The user
+                            which invokes this command need + right for that
+                            repo.
   --status|-s <repo>        Returns if the repo is locked or not.
-  --message|-m <message>    Optional message. Combineable with --lock and --exterminate.
-                            This message will be displayed to users which try to
-                            push to a locked repo.
+  --message|-m <message>    Optional message. Combineable with --lock and
+                            --exterminate. This message will be displayed to
+                            users which try to push to a locked repo.
   -help|-h                  Shows this help.
 
 You MUST NOT combine --lock, --unlock and/or --exterminate together in one command
@@ -64,7 +65,7 @@ FAQ
 
 Bugs
 
-Bugs you can report to https://github.com/Weltraumschaf/gitolite/issues
+Bugs you can report to https://github.com/Weltraumschaf/gitolite-lock-repo/issues
 =cut
 
 usage() if not @ARGV or $ARGV[0] eq '-h' or $ARGV[0] eq '--help';
