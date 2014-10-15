@@ -3,11 +3,15 @@ package Gitolite::LockRepo::LockData;
 # Common functions for lock data.
 # -------------------------------
 
+use strict;
+use warnings;
+
+use Exporter qw(import);
+
 #<<<
 @EXPORT = qw(
-    KEY_MESSAGE     KEY_TIME    KEY_USER    KEY_BRANCHES
-
     load            save
+
     hasGeneralLock  setGeneralLock  removeGeneralLock
     hasBranchLock   getBranchLock   setBranchLock   removeBranchLock
 
@@ -18,10 +22,6 @@ package Gitolite::LockRepo::LockData;
     hasBranches
 );
 #>>>
-use Exporter 'import';
-
-use strict;
-use warnings;
 
 use constant KEY_MESSAGE        => 'MESSAGE';        ## no critic
 use constant KEY_TIME           => 'TIME';           ## no critic

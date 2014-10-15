@@ -3,24 +3,23 @@ package Gitolite::LockRepo;
 # Common functions for lock-repo command and update hook.
 # -------------------------------------------------------
 
+use strict;
+use warnings;
+
+use Exporter qw(import);
+
 #<<<
 @EXPORT = qw(
     LOCK_FILE
-    CMD_LOCK
-    CMD_UNLOCK
-    CMD_EXTERMINATE
-    CMD_STATUS
 
-    get_lock
-    put_lock
+    CMD_LOCK    CMD_UNLOCK  CMD_BREAK   CMD_STATUS
+
+    get_lock    put_lock
+
     error
     remove_trailing_git
 );
 #>>>
-use Exporter 'import';
-
-use strict;
-use warnings;
 
 use Gitolite::Rc;
 use Gitolite::Common;
