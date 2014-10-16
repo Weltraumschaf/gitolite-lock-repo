@@ -96,12 +96,19 @@ sub removeBranchLock {
 
     return %data;
 }
+use Carp qw(croak);
 
 sub getBranchLock {
-    my ($branchname, %data) = @_;
+    my $branchname = shift;
+    my $data = shift;
 
-    if (exists $data{KEY_BRANCHES}{$branchname}) {
-        return %{$data{KEY_BRANCHES}{$branchname}};
+    return () unless defined $branchname;
+    return () unless defined $data;
+
+    croak 'Expected hash reference as second argument!' unless ref $data eq ref {};
+
+    if (exists $data->{KEY_BRANCHES}{$branchname}) {
+        return $data->{KEY_BRANCHES}{$branchname};
     }
 
     return ();

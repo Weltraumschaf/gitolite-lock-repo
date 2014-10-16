@@ -8,18 +8,34 @@ use lib $ENV{GL_LIBDIR};
 use Test::More;
 use Gitolite::LockRepo::LockData;
 
-my %myData = ();
-is( getBranchLock('branchname', %myData), (), 'Empty result expected.');
+is( getBranchLock(undef, ()), (), 'Empty result expected for undef branchname.');
 
-$myData{KEY_BRANCHES}{branchname}{KEY_USER} = 'user';
-$myData{KEY_BRANCHES}{branchname}{KEY_TIME} = 42;
-$myData{KEY_BRANCHES}{branchname}{KEY_MESSAGE} = 'message';
-my %expectedData = (
-    KEY_USER    => 'user',
-    KEY_TIME    => 42,
+is( getBranchLock('branchname', undef), (), 'Empty result expected for undef data.');
+
+is( getBranchLock('branchname', {}), (), 'Empty result expected for empty data.');
+
+my $expectedData = {
+    KEY_USER => 'user',
+    KEY_TIME => 42,
     KEY_MESSAGE => 'message'
-);
+};
 
-is( getBranchLock('branchname', %myData), %expectedData, 'Given result expected.' );
+is(
+    getBranchLock('branchname', {
+        KEY_BRANCHES => {
+            branchname => $expectedData
+        }
+    }),
+    $expectedData,
+    'Given result expected for existing branch name.' );
+
+is(
+    getBranchLock('foobar', {
+        KEY_BRANCHES => {
+            branchname => $expectedData
+        }
+    }),
+    (),
+    'Empty result expected for wrong branch name.' );
 
 done_testing();

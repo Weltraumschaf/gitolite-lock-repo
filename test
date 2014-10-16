@@ -5,11 +5,11 @@
 #
 
 # CHANGE THIS to where the Gitolite lib dir is:
-GL_LIBDIR=/some/where/gitolite/src/lib
+GL_LIBDIR=/Users/sxs/src/perl/gitolite/src/lib
 # Wait time in seconds between each test repetition.
 INTERVAL=1
 # CLI options for `prove`.
-PROVE_OPTS="--color -rvl"
+PROVE_OPTS="--color -rl"
 
 ################################################################################
 
