@@ -1,11 +1,11 @@
 # gitolite-lock-repo
 
-Command to lock repo at [Gitolite][gitolite] via SSH command.
-For detailed information see the [command documentation][doc].
+Command  to lock  repo at  [Gitolite][gitolite]  via SSH  command. For  detailed
+information see the [command documentation][doc].
 
 ## Testing
 
-To run the unit tests it is necessary to define an environment varibale where
+To run the  unit tests it is  necessary to define an  environment varibale where
 the Gitolite lib is found:
 
     $> export GL_LIBDIR=/some/where/gitolite/src/lib
@@ -15,7 +15,14 @@ After that invoke [prove(1)][prove] in the project's base directory:
     $> prove -rvl
 
 Or for convenience invoke the script `./test` (after changing the `GL_LIBDIR`
-variable in the script). This will run prove continuously each second.
+variable in the script):
+
+     $> ./test
+
+This script  will run prove continuously  each second if you  provide the switch
+`-w`.
+
+     $> ./test -w
 
 ## Installation
 

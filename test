@@ -1,15 +1,29 @@
 #!/bin/bash
 
+#
+# Helper script to run the unit tests.
+#
+
 # CHANGE THIS to where the Gitolite lib dir is:
 GL_LIBDIR=/some/where/gitolite/src/lib
-export GL_LIBDIR
-# Test repetition.
+# Wait time in seconds between each test repetition.
 INTERVAL=1
+# CLI options for `prove`.
+PROVE_OPTS="--color -rvl"
 
-# I use loop instead of watch because watch does not support colors.
-while [ : ]
-do
-    clear
-    prove --color -rvl
-    sleep ${INTERVAL}
-done
+################################################################################
+
+# Export location to Gitolite lib.
+export GL_LIBDIR
+
+if [ "${1}" == "-w" ] ; then # Repeat the tests.
+    # I use loop instead of watch because watch does not support colors.
+    while [ : ] ; do
+        clear
+        prove ${PROVE_OPTS}
+        sleep ${INTERVAL}
+    done
+else # Run tests only one time.
+    prove ${PROVE_OPTS}
+fi
+
