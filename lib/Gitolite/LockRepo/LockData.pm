@@ -1,15 +1,15 @@
 package Gitolite::LockRepo::LockData;
 
-# Common functions for lock data.
-# -------------------------------
-
 use strict;
 use warnings;
+
+# Common functions for lock data.
+# -------------------------------
 
 use Exporter qw(import);
 
 #<<<
-@EXPORT = qw(
+our @EXPORT = qw(
     load            save
 
     hasGeneralLock  setGeneralLock  removeGeneralLock
