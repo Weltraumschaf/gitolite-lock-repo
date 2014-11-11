@@ -5,7 +5,7 @@
 #
 
 # CHANGE THIS to where the Gitolite lib dir is:
-GL_LIBDIR=/Users/sxs/src/perl/gitolite/src/lib
+GL_LIBDIR=contrib/lib
 # Wait time in seconds between each test repetition.
 INTERVAL=1
 # CLI options for `prove`.
@@ -26,4 +26,3 @@ if [ "${1}" == "-w" ] ; then # Repeat the tests.
 else # Run tests only one time.
     prove ${PROVE_OPTS}
 fi
-
