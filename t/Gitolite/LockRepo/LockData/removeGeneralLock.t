@@ -9,10 +9,10 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = setGeneralLock('user', 42, 'message', ());
-is( hasGeneralLock(%myData), 1, 'Lock expected');
+is( hasGeneralLock(%myData), '1', 'Lock expected');
 
 %myData = removeGeneralLock(%myData);
-is( hasGeneralLock(%myData), 0, 'Removed lock expected.');
+is( hasGeneralLock(%myData), '', 'Removed lock expected.');
 
 is( getUser(%myData), '', 'Empty user expected.');
 is( getTime(%myData), 0, '0 time expected.');

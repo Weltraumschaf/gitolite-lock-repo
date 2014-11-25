@@ -28,6 +28,9 @@ use constant KEY_TIME           => 'TIME';           ## no critic
 use constant KEY_USER           => 'USER';           ## no critic
 use constant KEY_BRANCHES       => 'BRANCHES';       ## no critic
 
+use constant TRUE   => '1'; ## no critic
+use constant FALSE  => '';  ## no critic
+
 sub load {
     my ($filename) = @_;
 
@@ -43,11 +46,11 @@ sub save {
 sub hasGeneralLock {
     my (%data) = @_;
 
-    return 0 unless hasMessage( %data );
-    return 0 unless hasTime( %data );
-    return 0 unless hasUser( %data );
+    return FALSE unless hasMessage( %data );
+    return FALSE unless hasTime( %data );
+    return FALSE unless hasUser( %data );
 
-    return 1;
+    return TRUE;
 }
 
 sub setGeneralLock {
@@ -73,8 +76,8 @@ sub removeGeneralLock {
 sub hasBranchLock {
     my ($branchname, %data) = @_;
 
-    return '' unless hasBranches( %data );
-    return '' unless exists $data{KEY_BRANCHES};
+    return FALSE unless hasBranches( %data );
+    return FALSE unless exists $data{KEY_BRANCHES};
     return exists $data{KEY_BRANCHES}{$branchname};
 }
 
