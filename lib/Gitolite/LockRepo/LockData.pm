@@ -118,8 +118,13 @@ sub getBranchLock {
 }
 
 sub hasMessage {
-    my (%data) = @_;
-    return exists $data{KEY_MESSAGE};
+    my ($data) = @_;
+
+    if (ref($data) eq 'HASH') {
+        return exists $data->{KEY_MESSAGE};
+    } else {
+        die 'Hash ref expected as first parameter!';
+    }
 }
 
 sub getMessage {
