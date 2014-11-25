@@ -8,10 +8,9 @@ use lib $ENV{GL_LIBDIR};
 use Test::More;
 use Gitolite::LockRepo::LockData;
 
-my %myData = ();
-is( getMessage(%myData), '', 'Empty string expected for empty hash.');
+is( getMessage(()), '', 'Empty string expected for undef hash.');
 
-%myData = setMessage('message', %myData);
+my %myData = setMessage('message', ());
 is( getMessage(%myData), 'message', 'Message expected.');
 
 done_testing();
