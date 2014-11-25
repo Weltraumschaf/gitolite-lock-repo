@@ -9,9 +9,9 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = ();
-is( getMessage(%myData), '', 'Empty hash.');
+is( getMessage(%myData), '', 'Empty string expected for empty hash.');
 
 %myData = setMessage('message', %myData);
-is( getMessage(%myData), 'message', 'Message set.');
+is( getMessage(%myData), 'message', 'Message expected.');
 
 done_testing();

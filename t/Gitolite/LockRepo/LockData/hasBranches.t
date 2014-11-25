@@ -9,7 +9,7 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = ();
-is( hasBranches(%myData), '', 'Empty hash.');
+is( hasBranches(%myData), '', 'False for empty hash.');
 
 $myData{KEY_BRANCHES} = ();
 is( hasBranches(%myData), '1', 'Branches set empty.');

@@ -9,7 +9,7 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = ();
-is( hasTime(%myData), '', 'Empty hash.');
+is( hasTime(%myData), '', 'False for empty hash.');
 
 %myData = setTime(1234, %myData);
 is( hasTime(%myData), 1, 'Time set.');

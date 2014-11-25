@@ -10,7 +10,7 @@ use Gitolite::LockRepo::LockData;
 
 my %myData = ();
 
-is( hasGeneralLock(%myData), 0, 'Empty hash.');
+is( hasGeneralLock(%myData), 0, 'False for empty hash.');
 
 %myData = setUser('user', %myData);
 is( hasGeneralLock(%myData), 0, 'User set.');

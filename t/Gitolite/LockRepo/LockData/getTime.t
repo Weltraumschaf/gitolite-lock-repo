@@ -9,9 +9,9 @@ use Test::More;
 use Gitolite::LockRepo::LockData;
 
 my %myData = ();
-is( getTime(%myData), 0, 'Empty hash.');
+is( getTime(%myData), 0, 'Zero expected for empty hash.');
 
 %myData = setTime(42, %myData);
-is( getTime(%myData), 42, 'Time set.');
+is( getTime(%myData), 42, 'Time expected.');
 
 done_testing();
