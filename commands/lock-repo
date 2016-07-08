@@ -16,11 +16,11 @@ use Getopt::Long;
 =for usage
 Locks a whole repo to prevent pushing into it from any users, but the user which
 locked the repo. Only the issuer of the lock can unlock the repo. Any user with
-force rights (+) can break the lock of other users.
+force rights (+) can exterminate the lock of other users.
 
 Usage
 
-  ssh git@host lock-repo lock|unlock|break|status|help <repo> [-m] [-b]
+  ssh git@host lock-repo lock|unlock|exterminate|status|help <repo> [-m] [-b]
 
 Sub-Commands and their Options
 
@@ -45,11 +45,11 @@ The lock-repo provides several sub-commands:
 
     Usage: ssh git@host lock-repo unlock <repo> [--b <name>]
 
-  break sub-command
+  exterminate sub-command
     Breaks the lock of an other user. The user which invokes this command need
     + right for that repo.
 
-    Usage: ssh git@host lock-repo break <repo> [-b <name>] [-m <message>]
+    Usage: ssh git@host lock-repo exterminate <repo> [-b <name>] [-m <message>]
 
     Options:
     --message|-m <message>  Optional message. Combineable with. This message

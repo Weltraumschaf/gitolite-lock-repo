@@ -12,7 +12,7 @@ use Exporter qw(import);
 our @EXPORT = qw(
     LOCK_FILE
 
-    CMD_LOCK    CMD_UNLOCK  CMD_BREAK   CMD_STATUS
+    CMD_LOCK    CMD_UNLOCK  CMD_EXTERMINATE   CMD_STATUS
 
     get_lock    put_lock
 
