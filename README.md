@@ -34,6 +34,13 @@ Add this location to your `.gitolite.rc`:
 
     # this one is managed directly on the server
     LOCAL_CODE  =>  "$ENV{HOME}/local",
+    
+In the same file, enable the command:
+
+    ENABLE => [
+        # ...
+        'lock-repo',
+    ],
 
 And then add the update hook to the `conf/gitolite.conf`:
 
